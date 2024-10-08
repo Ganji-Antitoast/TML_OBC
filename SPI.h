@@ -175,7 +175,7 @@ void set_clock(rtc_time_t &date_time)
    date_time.tm_wday=00;
    date_time.tm_hour=00;
    date_time.tm_min=00;
-   date_time.tm_sec=0;
+   date_time.tm_sec=0; 
 
 }
 //g
