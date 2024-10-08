@@ -178,7 +178,7 @@ void set_clock(rtc_time_t &date_time)
    date_time.tm_sec=0;
 
 }
-
+//g
 // Main menu function
 void main_menu(void) {
     char option;
