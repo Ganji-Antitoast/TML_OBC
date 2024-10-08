@@ -1,0 +1,11 @@
+Compiling C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main on 08-Oct-24 at 12:04
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:210:1:  Warning#203  Condition always TRUE
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:255:47:  Error#12  Undefined identifier   address
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:257:46:  Error#12  Undefined identifier   data_length
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:259:63:  Error#12  Undefined identifier   data_length
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:259:79:  Error#76  Expect ;
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:260:50:  Error#12  Undefined identifier   data
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:262:51:  Error#12  Undefined identifier   address
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:269:47:  Error#12  Undefined identifier   address
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.o ===>  7 Errors,  1 Warnings.
+Build Failed.
