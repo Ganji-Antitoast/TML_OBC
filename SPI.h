@@ -58,9 +58,17 @@ void WRITE_ENABLE_OF(){
  output_high(CS_PIN_1);  
  return;
 }
+
+void WRITE_ENABLE_OF_COM(){
+ output_low(CS_PIN_2);
+ 
+ spi_xfer(SPIPORT,ENABLE_WRITE);                //Send 0x06
+ output_high(CS_PIN_2);  
+ return;
+}
+
 void WRITE_DATA_NBYTES(unsigned int32 ADDRESS, unsigned int8 data[], unsigned char data_number) {
     printf("WRITE ADDRESS: 0x%08lx\n", ADDRESS);  // Print address as hex
-
     unsigned int8 adsress[4];
     // Byte extraction for a 32-bit address
     adsress[0]  = (unsigned int8)((ADDRESS >> 24) & 0xFF);
@@ -72,14 +80,12 @@ void WRITE_DATA_NBYTES(unsigned int32 ADDRESS, unsigned int8 data[], unsigned ch
     // Lower CS to select the SPI device
     output_low(CS_PIN_1);
     delay_us(2);  // Small delay for stabilization
-
     // Send WRITE command and address
     spi_xfer(SPIPORT, WRITE_PAGE);
     spi_xfer(SPIPORT, adsress[0]);
     spi_xfer(SPIPORT, adsress[1]);
     spi_xfer(SPIPORT, adsress[2]);
     spi_xfer(SPIPORT, adsress[3]);
-
     // Write data bytes
     for (int i = 0; i < data_number; i++) {
         spi_xfer(SPIPORT, data[i]);  // Send data byte
@@ -90,8 +96,37 @@ void WRITE_DATA_NBYTES(unsigned int32 ADDRESS, unsigned int8 data[], unsigned ch
     
     printf("\n%d BYTES WRITTEN!\n", data_number);
 
-    // Optionally disable write if required by your chip
-    // WRITE_DISABLE_OF();
+}
+
+void WRITE_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned int8 data[], unsigned char data_number) {
+    printf("WRITE ADDRESS: 0x%08lx\n", ADDRESS);  // Print address as hex
+    unsigned int8 adsress[4];
+    // Byte extraction for a 32-bit address
+    adsress[0]  = (unsigned int8)((ADDRESS >> 24) & 0xFF);
+    adsress[1]  = (unsigned int8)((ADDRESS >> 16) & 0xFF);
+    adsress[2]  = (unsigned int8)((ADDRESS >> 8) & 0xFF);
+    adsress[3]  = (unsigned int8)(ADDRESS & 0xFF);
+    WRITE_ENABLE_OF_COM();  // Enable write operation
+
+    // Lower CS to select the SPI device
+    output_low(CS_PIN_2);
+    delay_us(2);  // Small delay for stabilization
+    // Send WRITE command and address
+    spi_xfer(SPIPORT, WRITE_PAGE);
+    spi_xfer(SPIPORT, adsress[0]);
+    spi_xfer(SPIPORT, adsress[1]);
+    spi_xfer(SPIPORT, adsress[2]);
+    spi_xfer(SPIPORT, adsress[3]);
+    // Write data bytes
+    for (int i = 0; i < data_number; i++) {
+        spi_xfer(SPIPORT, data[i]);  // Send data byte
+        printf("%02X ", data[i]);    // Print each byte as hex (optional)
+    }
+    
+    output_high(CS_PIN_2);  // Deselect SPI device
+    
+    printf("\n%d BYTES WRITTEN!\n", data_number);
+
 }
 
  
@@ -178,18 +213,18 @@ void set_clock(rtc_time_t &date_time)
    date_time.tm_sec=0; 
 
 }
-//gah
+//hak thuah spilt on that thang enough 
 // Main menu function
 void main_menu(void) {
     char option;
     char flash_option;           // Variable to capture flash memory option
     char main_flash_option;      // Variable to capture MAIN flash memory option
-//    char com_flash_option;       // Variable to capture com flash memory option
-//    char adcs_flash_option;      // Variable to capture adcs flash memory option
-    // Variable for option d
-//    unsigned int32 address;
-//    unsigned char data[32]; // Maximum data length
-//    unsigned char data_length;
+    char com_flash_option;       // Variable to capture com flash memory option
+    char adcs_flash_option;      // Variable to capture adcs flash memory option
+     //Variable for option d
+    unsigned int32 address;
+    unsigned char data[32]; // Maximum data length
+    unsigned char data_length;
 
     printf("/n");
     printf("-----------------Main_menu-----------------\n");
