@@ -1,0 +1,251 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004-005 @sprintf_string
+006-01A bichig
+01B-06A read_data
+06B     @SPI_XFER_2.P1
+06B     @SPI_XFER_3.P2
+06B-073 MAIN.write_clock
+06C     @SPI_XFER_2.P1
+06C     @SPI_XFER_3.P2
+06D     @SPI_XFER_3.P1
+06D     @SPI_XFER_2.P2
+074-07C MAIN.read_clock
+07D-084 MAIN.chip_id
+085     MAIN.i
+086     MAIN.i
+087     main_menu.option
+087     READ_CHIP_ID_OF.chip_id
+087-08A WRITE_DATA_NBYTES.address
+087-08A READ_DATA_NBYTES.address
+087     MAIN.@SCRATCH1
+087     @PSTRINGC_804.@SCRATCH1
+088     @delay_ms3.P1
+088     handle_flash_memories.flash_option
+088     handle_io_control.io_option
+088-090 handle_set_time.write_clock
+088     @PSTRINGC_804.@SCRATCH2
+089     @GETCH_2_.@SCRATCH1
+089     @PSTRINGC_804.@SCRATCH3
+08A     @PUTCHAR_1_.P1
+08B-08C WRITE_DATA_NBYTES.data
+08B-08C READ_DATA_NBYTES.Data_return
+08D     WRITE_DATA_NBYTES.data_number
+08D     READ_DATA_NBYTES.data_number
+08E-091 READ_DATA_NBYTES.adsress
+08E-091 WRITE_DATA_NBYTES.adsress
+091-099 handle_set_time.read_clock
+092     READ_DATA_NBYTES.i
+092     WRITE_DATA_NBYTES.i
+093     @PRINTF_D_808.P1
+093     WRITE_DATA_NBYTES.@SCRATCH1
+093     READ_DATA_NBYTES.@SCRATCH1
+094     @PRINTF_D_808.P1
+094     @PRINTF_X_808.P2
+094     WRITE_DATA_NBYTES.@SCRATCH2
+094     READ_DATA_NBYTES.@SCRATCH2
+095     @PRINTF_X_808.P1
+095     @SPI_XFER_1.P2
+095     WRITE_DATA_NBYTES.@SCRATCH3
+095     @PRINTF_D_808.@SCRATCH1
+095     READ_DATA_NBYTES.@SCRATCH3
+096     @SPI_XFER_1.P1
+096     WRITE_DATA_NBYTES.@SCRATCH4
+096     @PRINTF_D_808.@SCRATCH2
+096     READ_DATA_NBYTES.@SCRATCH4
+097     @SPI_XFER_1.P1
+097     WRITE_DATA_NBYTES.@SCRATCH5
+097     @PRINTF_D_808.@SCRATCH3
+097     READ_DATA_NBYTES.@SCRATCH5
+098     @SPI_XFER_1.@SCRATCH1
+098     @PRINTF_D_808.@SCRATCH4
+099     @SPI_XFER_1.@SCRATCH2
+09A     @PRINTF_U_808.P1
+09A     @PSTRINGCN_808.P2
+09A     @PSTRINGC_808.@SCRATCH1
+09B     @PRINTF_U_808.P1
+09B     @PSTRINGCN_808.@SCRATCH1
+09B     @PSTRINGC_808.@SCRATCH2
+09C     @DIV88.P1
+09C     @PSTRINGCN_808.@SCRATCH2
+09C     @PSTRINGC_808.@SCRATCH3
+09D     @DIV88.P1
+09D     @PSTRINGCN_808.@SCRATCH3
+09E     @PUTCHAR_2_.P1
+09E     @DIV88.@SCRATCH1
+EEF.0   MDBIT
+EEF.3   MDOUT
+F08     CCP_7_LOW
+F08     CCP_7
+F09     CCP_7_HIGH
+F0B     CCP_6_LOW
+F0B     CCP_6
+F0C     CCP_6_HIGH
+F0E     CCP_5_LOW
+F0E     CCP_5
+F0F     CCP_5_HIGH
+F11     CCP_4
+F11     CCP_4_LOW
+F12     CCP_4_HIGH
+F21     DSGPR3
+F22     DSGPR2
+F23     DSGPR1
+F24     DSGPR0
+F41     CCP_10_LOW
+F41     CCP_10
+F42     CCP_10_HIGH
+F44     CCP_9
+F44     CCP_9_LOW
+F45     CCP_9_HIGH
+F47     CCP_8
+F47     CCP_8_LOW
+F48     CCP_8_HIGH
+F4A     CCP_3_LOW
+F4A     CCP_3
+F4B     CCP_3_HIGH
+F4F     CCP_2
+F4F     CCP_2_LOW
+F50     CCP_2_HIGH
+F83     PSP_DATA
+FBA     CCP_1_LOW
+FBA     CCP_1
+FBB     CCP_1_HIGH
+FC4.0   C1OUT
+FC4.1   C2OUT
+FC4.2   C3OUT
+FE1-FE2 @READ_PACKED_MEMORY.P1
+FE1-FE2 @WRITE_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PACKED_MEMORY.P1
+FE9-FEA @READ_PACKED_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P3
+FE9-FEA @WRITE_PROGRAM_MEMORY.P4
+FF6-FF8 @READ_PROGRAM_MEMORY.P1
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+000006  @const841.call
+00001E  @const850.call
+000032  @const861.call
+00004A  @const865.call
+00005E  @const880.call
+000088  @const885.call
+0000C0  @const886.call
+0000DC  @const887.call
+0000FE  @const888.call
+000122  @const889.call
+000142  @const890.call
+000164  @const891.call
+000194  @const897.call
+0001AE  @const898.call
+0001CC  @const899.call
+0001FA  @const900.call
+000228  @const901.call
+000246  @const902.call
+000274  @const903.call
+00029A  @const904.call
+0002C0  @const913.call
+0002DE  @const914.call
+000316  @const920.call
+00033A  @const921.call
+00035E  @const922.call
+00037E  @const924.call
+0003A6  @const925.call
+0003DC  @const930.call
+0003EA  @const931.call
+00040C  @const935.call
+00042E  @const937.call
+00045C  @const938.call
+00047E  @const941.call
+000492  @const942.call
+0004B4  @const943.call
+0004D6  @const944.call
+0004F8  @const945.call
+00051E  @const948.call
+00054C  @const949.call
+000572  @const950.call
+00059A  @const951.call
+0005C6  @const952.call
+0005EA  @const953.call
+00060A  @const954.call
+000628  @const955.call
+000656  @const956.call
+000676  @const957.call
+00069C  @const958.call
+0006B8  @const959.call
+0006D2  @const960.call
+0006F0  @const961.call
+00071E  @const962.call
+000742  @const976.call
+000752  @const978.call
+00075E  @const981.call
+00076A  @const986.call
+000780  @const987.call
+00078C  @const988.call
+0007A6  @const989.call
+0007B4  @const993.call
+0007D0  @PUTCHAR_1_
+000814  @PSTRINGC_804
+00083E  @PUTCHAR_2_
+000880  @PSTRINGC_808
+0008A8  @BCD2BYTE
+0008BA  @SPI_XFER_1
+000902  READ_CHIP_ID_OF
+000932  @delay_ms3
+00095C  @PSTRINGCN_808
+000982  @PRINTF_X_808
+0009C0  WRITE_ENABLE_OF
+0009DA  @DIV88
+000A02  @PRINTF_D_808
+000AAE  WRITE_DATA_NBYTES
+000BC0  READ_DATA_NBYTES
+000C6C  @GETCH_2_
+000CB2  handle_flash_memories
+000D42  @PRINTF_U_808
+000DA8  @BYTE2BCD
+000DCC  handle_set_time
+000E80  set_clock
+000F70  handle_io_control
+000FDE  main_menu
+001116  @cinit1
+001116  MAIN
+0011C4  @cinit2
+
+Project Directory:
+    C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\
+
+Project Files:
+    main.c (link)                                           [13-Oct-24 18:12  CRC=DA6CA4A4]
+    spi.h                                                   [14-Oct-24 07:37  CRC=C61EC46B]
+    ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18F67J94.h [12-Nov-13 14:36  CRC=17AC0C0B]
+
+Source signature=CFE38125
+Program memory checksum=0000
+Hex file CRC=32A6
+
+Units:
+    C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main
+
+Compiler Settings:
+    Processor:      PIC18F67J94
+    Pointer Size:   16
+    ADC Range:      0-65535
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    ICD Provisions: Yes
+    Compile Mode:   CCS5
+
+Output Files:
+    XREF file:   dist\default\debug\TML_OBC.xsym
+    Errors:      dist\default\debug\TML_OBC.X.debug.err
+    Ext Symbols: dist\default\debug\TML_OBC.X.debug.esym
+    INHX32:      dist\default\debug\TML_OBC.X.debug.hex
+    Symbols:     dist\default\debug\TML_OBC.X.debug.sym
+    List:        dist\default\debug\TML_OBC.X.debug.lst
+    Debug/COFF:  dist\default\debug\TML_OBC.X.debug.cof
+    Project:     TML_OBC.X.debug.ccspjt
+    Call Tree:   dist\default\debug\TML_OBC.X.debug.tre
+    Statistics:  dist\default\debug\TML_OBC.X.debug.STA
