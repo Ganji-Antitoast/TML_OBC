@@ -54,12 +54,16 @@ extern "C" {
 #define ERASE_32KB_SUBSECTOR 0x5C
 #define DIE_ERASE            0xC4
 #define FAST_READ            0x0B
+    
+#define SHUTDOWN_COUNT_ADDRESS 0x00100010
 
 
 #define EN_SUP_3V3_1 PIN_B0
-#define EN_SUP_UNREG PIN_B1
+#define EN_SUP_3V3_2 PIN_G1
 #define EN_SUP_3V3_DAQ PIN_D0
+#define EN_SUP_UNREG PIN_B1
 #define EN_SUP_5V0 PIN_D1
+#define KILL_SWITCH PIN_A4
     
 void WRITE_ENABLE_OF(){
  output_low(CS_PIN_1);
@@ -186,29 +190,38 @@ int8 READ_CHIP_ID_OF()
 
 
 //#define SHUTDOWN_COUNT_ADDRESS  0x00000500  // Address where shutdown count is stored
-//
-//
-//int8 update_shutdown_count(void) {
-//    fprintf(EXT,"Shutdown count started\n");
-//
-//    unsigned int8 shutdown_count[1];  
-//    READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
-//    delay_ms(10);
-//
-//    // Check if the shutdown count is uninitialized
-//    if (shutdown_count[0] == 0xFF) {
-//        shutdown_count[0] = 0;  // Initialize to 0 if uninitialized
-//        fprintf(EXT,"Shutdown count uninitialized, setting to 0\n");
-//    }
-//
-//    shutdown_count[0] += 1;  // Increment the shutdown count
-//    WRITE_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
-//    delay_ms(10);
-//
-//    // Print the updated shutdown count
-//    fprintf(EXT,"Shutdown count: %u\n", shutdown_count[0]);
-//    return shutdown_count[0];
-//}
+
+int8 update_shutdown_count(void) {
+    fprintf(EXT, "Shutdown count started\n");
+
+    unsigned int8 shutdown_count[1];
+    READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
+    delay_ms(10);
+
+    fprintf(EXT, "Read shutdown count: %u\n", shutdown_count[0]);
+
+    // Check if the shutdown count is uninitialized (0xFF)
+    if (shutdown_count[0] == 0xFF) {
+        shutdown_count[0] = 0;  // Initialize to 0 if uninitialized
+        fprintf(EXT, "Shutdown count uninitialized, setting to 0\n");
+    }
+
+    shutdown_count[0] += 1;  // Increment the shutdown count
+    WRITE_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
+    delay_ms(10);
+
+    // Read back to verify it was written correctly
+    unsigned int8 verify_count[1];
+    READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, verify_count, 1);
+    if (shutdown_count[0] == verify_count[0]) {
+        fprintf(EXT, "Shutdown count successfully updated: %u\n", verify_count[0]);
+    } else {
+        fprintf(EXT, "Failed to update shutdown count. Read back: %u\n", verify_count[0]);
+    }
+
+    return shutdown_count[0];
+}
+
 
 
 void set_clock(rtc_time_t &date_time)
@@ -316,23 +329,97 @@ void handle_set_time() {
 
 void handle_io_control() {
     char io_option;
+    int8 state_of_pin;
 
     fprintf(EXT, "IO control chosen\n");
-    fprintf(EXT, "    press a: Toggle EN_SUP_3V3_1\n");
-    fprintf(EXT, "    press b: Toggle EN_SUP_UNREG\n");
-    // Add other options as needed
-    fprintf(EXT, "    press x: Return to MAIN MENU\n");
+
+    // Check and display the state of each pin before providing options
+    state_of_pin = input_state(EN_SUP_3V3_1);
+    fprintf(EXT, "    press a: Toggle EN_SUP_3V3_1 /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+    state_of_pin = input_state(EN_SUP_3V3_2);
+    fprintf(EXT, "    press b: Toggle EN_SUP_3V3_2 /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+     state_of_pin = input_state(EN_SUP_3V3_DAQ);
+    fprintf(EXT, "    press c: Toggle EN_SUP_3V3_DAQ /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+    state_of_pin = input_state(EN_SUP_UNREG);
+    fprintf(EXT, "    press d: Toggle EN_SUP_UNREG /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+    state_of_pin = input_state(EN_SUP_5V0);
+    fprintf(EXT, "    press e: Toggle EN_SUP_5V0 /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+    state_of_pin = input_state(KILL_SWITCH);
+    fprintf(EXT, "    press f: Toggle KILL_SWITCH /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+    fprintf(EXT, "    press g: Toggle all Pins");
+    
 
     io_option = fgetc(EXT);
 
     switch (io_option) {
         case 'a':
-            output_toggle(EN_SUP_3V3_1); // Implement pin toggling function
+            output_toggle(EN_SUP_3V3_1);
             break;
         case 'b':
+            output_toggle(EN_SUP_3V3_2);
+            break;
+        case 'c':
+            output_toggle(EN_SUP_3V3_DAQ);
+            break;
+        case 'd':
             output_toggle(EN_SUP_UNREG);
             break;
-        // Add more cases for other IO control options
+        case 'e':
+            output_toggle(EN_SUP_5V0);
+            break;
+        case 'f':
+            output_toggle(KILL_SWITCH);
+            break;
+        case 'g':
+            output_toggle(KILL_SWITCH);
+            output_toggle(EN_SUP_5V0);
+            output_toggle(EN_SUP_UNREG);
+            output_toggle(EN_SUP_3V3_DAQ);
+            output_toggle(EN_SUP_3V3_2);
+            output_toggle(EN_SUP_3V3_1);
+            break;
         case 'x':
             return;
         default:
@@ -340,6 +427,9 @@ void handle_io_control() {
             break;
     }
 }
+
+
+
 
 void main_menu(void) {
     char option;

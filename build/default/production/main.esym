@@ -1,7 +1,7 @@
 D G "__PCH__" 0 0 ""5.112""
 D G "__DEVICE__" 0 0 ""
-D G "__DATE__" 0 0 ""14-Oct-24""
-D G "__TIME__" 0 0 ""07:40:02""
+D G "__DATE__" 0 0 ""15-Oct-24""
+D G "__TIME__" 0 0 ""16:39:30""
 D G "_UNICODE" 0 0 ""?""
 D G "__EVAL" 0 0 ""?""
 D G "__18F67J94" 0 0 "1" "* File:   main.c"
@@ -1740,122 +1740,133 @@ D G "ERASE_4KB_SUBSECTOR" 1 53 "0x21"
 D G "ERASE_32KB_SUBSECTOR" 1 54 "0x5C"
 D G "DIE_ERASE" 1 55 "0xC4"
 D G "FAST_READ" 1 56 "0x0B"
-D G "EN_SUP_3V3_1" 1 59 "PIN_B0"
-D G "EN_SUP_UNREG" 1 60 "PIN_B1"
-D G "EN_SUP_3V3_DAQ" 1 61 "PIN_D0"
-D G "EN_SUP_5V0" 1 62 "PIN_D1"
-F N "WRITE_ENABLE_OF" 1 64 ""
-F G "WRITE_ENABLE_OF" 1 64 "void()" `834 
-C L "WRITE_ENABLE_OF" 1 67 1 "FUNCTION"
-F N "WRITE_ENABLE_OF_COM" 1 72 ""
-F G "WRITE_ENABLE_OF_COM" 1 72 "void()" `835 
-C L "WRITE_ENABLE_OF_COM" 1 67 1 "FUNCTION"
-F N "WRITE_DATA_NBYTES" 1 80 ""
-V L "address" 1 80 "int32" `837 
-V L "data" 1 80 "*int8" `838 
-V L "data_number" 1 80 "int8" `839 
-F G "WRITE_DATA_NBYTES" 1 80 "void(int32 address,*int8 data,int8 data_number)" `836 
-C L "WRITE_DATA_NBYTES" 1 67 1 "FUNCTION"
-V L "adsress" 1 82 "int8[4]" `847  "Byte extraction for a 32-bit address"
-C L "WRITE_DATA_NBYTES" 1 67 2 "FUNCTION"
-C L "WRITE_DATA_NBYTES" 1 67 2 "FUNCTION"
-C L "WRITE_DATA_NBYTES" 1 67 1 "FUNCTION"
-V L "i" 1 100 "int8" `848 
-C L "WRITE_DATA_NBYTES" 1 67 1 "FUNCTION"
-C L "WRITE_DATA_NBYTES" 1 67 1 "FUNCTION"
-C L "WRITE_DATA_NBYTES" 1 67 1 "FUNCTION"
-F N "WRITE_DATA_NBYTES_COM" 1 111 ""
-V L "address" 1 111 "int32" `858 
-V L "data" 1 111 "*int8" `859 
-V L "data_number" 1 111 "int8" `860 
-F G "WRITE_DATA_NBYTES_COM" 1 111 "void(int32 address,*int8 data,int8 data_number)" `857 
-C L "WRITE_DATA_NBYTES_COM" 1 67 1 "FUNCTION"
-V L "adsress" 1 113 "int8[4]" `863  "Byte extraction for a 32-bit address"
-C L "WRITE_DATA_NBYTES_COM" 1 67 2 "FUNCTION"
-C L "WRITE_DATA_NBYTES_COM" 1 67 2 "FUNCTION"
-C L "WRITE_DATA_NBYTES_COM" 1 67 1 "FUNCTION"
-V L "i" 1 131 "int8" `864 
-C L "WRITE_DATA_NBYTES_COM" 1 67 1 "FUNCTION"
-C L "WRITE_DATA_NBYTES_COM" 1 67 1 "FUNCTION"
-C L "WRITE_DATA_NBYTES_COM" 1 67 1 "FUNCTION"
-F N "READ_DATA_NBYTES" 1 143 ""
-V L "address" 1 143 "int32" `868 
-V L "Data_return" 1 143 "*int8" `869 
-V L "data_number" 1 143 "int8" `870 
-F G "READ_DATA_NBYTES" 1 143 "void(int32 address,*int8 Data_return,int8 data_number)" `867 
-V L "adsress" 1 144 "int8[4]" `871  "Byte extraction for a 32-bit address"
-C L "READ_DATA_NBYTES" 1 67 2 "FUNCTION"
-C L "READ_DATA_NBYTES" 1 67 1 "FUNCTION"
-C L "READ_DATA_NBYTES" 1 67 1 "FUNCTION"
-V L "i" 1 162 "int8" `872 
-C L "READ_DATA_NBYTES" 1 67 1 "FUNCTION"
-C L "READ_DATA_NBYTES" 1 67 1 "FUNCTION"
-C L "READ_DATA_NBYTES" 1 67 1 "FUNCTION"
-F N "READ_CHIP_ID_OF" 1 172 ""
-F G "READ_CHIP_ID_OF" 1 173 "int8()" `875 
-C L "READ_CHIP_ID_OF" 1 67 1 "FUNCTION"
-V L "chip_id" 1 177 "int8" `876 
-C L "READ_CHIP_ID_OF" 1 67 1 "FUNCTION"
-C L "READ_CHIP_ID_OF" 1 67 1 "FUNCTION"
-C L "set_clock" 1 67 16 "FUNCTION"
-F N "set_clock" 1 214 ""
-V L "date_time" 1 214 "rtc_time_t" `878 
-F G "set_clock" 1 215 "void(rtc_time_t date_time)" `877 
-C L "handle_flash_memories" 1 67 2 "FUNCTION"
-F N "handle_flash_memories" 1 228 ""
-F G "handle_flash_memories" 1 228 "void()" `879 
-V L "flash_option" 1 229 "int8" `880 
-C L "handle_flash_memories" 1 67 1 "FUNCTION"
-C L "handle_flash_memories" 1 67 1 "FUNCTION"
-C L "handle_flash_memories" 1 67 1 "FUNCTION"
-F N "handle_main_flash_memory" 1 256 ""
-F G "handle_main_flash_memory" 1 256 "void()" `893 
-V L "main_flash_option" 1 257 "int8" `894 
-V L "address" 1 258 "int32" `895 
-V L "data" 1 259 "int8[32]" `896 
-V L "data_length" 1 260 "int8" `897 
-C L "handle_main_flash_memory" 1 67 1 "FUNCTION"
-C L "handle_main_flash_memory" 1 67 1 "FUNCTION"
-V L "i" 1 282 "int8" `916 
-C L "handle_main_flash_memory" 1 67 2 "FUNCTION"
-F N "handle_set_time" 1 304 ""
-F G "handle_set_time" 1 304 "void()" `927 
-V L "write_clock" 1 305 "rtc_time_t" `928 
-V L "read_clock" 1 305 "rtc_time_t" `929 
-F N "handle_io_control" 1 317 ""
-F G "handle_io_control" 1 317 "void()" `940 
-V L "io_option" 1 318 "int8" `941 
-C L "handle_io_control" 1 67 1 "FUNCTION"
-C L "handle_io_control" 1 67 1 "FUNCTION"
-C L "handle_io_control" 1 67 1 "FUNCTION"
-F N "main_menu" 1 344 ""
-F G "main_menu" 1 344 "void()" `947 
-V L "option" 1 345 "int8" `948  "char flash_option;           // Variable to capture flash memory option"
-C L "main_menu" 1 67 6 "FUNCTION"
-C L "main_menu" 1 67 1 "FUNCTION"
-C L "main_menu" 1 67 1 "FUNCTION"
-C L "main_menu" 1 67 1 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-C L "main_menu" 1 67 2 "FUNCTION"
-V G "bichig" 0 20 "int8[21]" `972 
-V G "read_data" 0 21 "int8[80]" `973 
+D G "SHUTDOWN_COUNT_ADDRESS" 1 58 "0x00100010"
+D G "EN_SUP_3V3_1" 1 61 "PIN_B0"
+D G "EN_SUP_3V3_2" 1 62 "PIN_G1"
+D G "EN_SUP_3V3_DAQ" 1 63 "PIN_D0"
+D G "EN_SUP_UNREG" 1 64 "PIN_B1"
+D G "EN_SUP_5V0" 1 65 "PIN_D1"
+D G "KILL_SWITCH" 1 66 "PIN_A4"
+F N "WRITE_ENABLE_OF" 1 68 ""
+F G "WRITE_ENABLE_OF" 1 68 "void()" `834 
+C L "WRITE_ENABLE_OF" 1 71 1 "FUNCTION"
+F N "WRITE_ENABLE_OF_COM" 1 76 ""
+F G "WRITE_ENABLE_OF_COM" 1 76 "void()" `835 
+C L "WRITE_ENABLE_OF_COM" 1 71 1 "FUNCTION"
+F N "WRITE_DATA_NBYTES" 1 84 ""
+V L "address" 1 84 "int32" `837 
+V L "data" 1 84 "*int8" `838 
+V L "data_number" 1 84 "int8" `839 
+F G "WRITE_DATA_NBYTES" 1 84 "void(int32 address,*int8 data,int8 data_number)" `836 
+C L "WRITE_DATA_NBYTES" 1 71 1 "FUNCTION"
+V L "adsress" 1 86 "int8[4]" `847  "Byte extraction for a 32-bit address"
+C L "WRITE_DATA_NBYTES" 1 71 2 "FUNCTION"
+C L "WRITE_DATA_NBYTES" 1 71 2 "FUNCTION"
+C L "WRITE_DATA_NBYTES" 1 71 1 "FUNCTION"
+V L "i" 1 104 "int8" `848 
+C L "WRITE_DATA_NBYTES" 1 71 1 "FUNCTION"
+C L "WRITE_DATA_NBYTES" 1 71 1 "FUNCTION"
+C L "WRITE_DATA_NBYTES" 1 71 1 "FUNCTION"
+F N "WRITE_DATA_NBYTES_COM" 1 115 ""
+V L "address" 1 115 "int32" `858 
+V L "data" 1 115 "*int8" `859 
+V L "data_number" 1 115 "int8" `860 
+F G "WRITE_DATA_NBYTES_COM" 1 115 "void(int32 address,*int8 data,int8 data_number)" `857 
+C L "WRITE_DATA_NBYTES_COM" 1 71 1 "FUNCTION"
+V L "adsress" 1 117 "int8[4]" `863  "Byte extraction for a 32-bit address"
+C L "WRITE_DATA_NBYTES_COM" 1 71 2 "FUNCTION"
+C L "WRITE_DATA_NBYTES_COM" 1 71 2 "FUNCTION"
+C L "WRITE_DATA_NBYTES_COM" 1 71 1 "FUNCTION"
+V L "i" 1 135 "int8" `864 
+C L "WRITE_DATA_NBYTES_COM" 1 71 1 "FUNCTION"
+C L "WRITE_DATA_NBYTES_COM" 1 71 1 "FUNCTION"
+C L "WRITE_DATA_NBYTES_COM" 1 71 1 "FUNCTION"
+F N "READ_DATA_NBYTES" 1 147 ""
+V L "address" 1 147 "int32" `868 
+V L "Data_return" 1 147 "*int8" `869 
+V L "data_number" 1 147 "int8" `870 
+F G "READ_DATA_NBYTES" 1 147 "void(int32 address,*int8 Data_return,int8 data_number)" `867 
+V L "adsress" 1 148 "int8[4]" `871  "Byte extraction for a 32-bit address"
+C L "READ_DATA_NBYTES" 1 71 2 "FUNCTION"
+C L "READ_DATA_NBYTES" 1 71 1 "FUNCTION"
+C L "READ_DATA_NBYTES" 1 71 1 "FUNCTION"
+V L "i" 1 166 "int8" `872 
+C L "READ_DATA_NBYTES" 1 71 1 "FUNCTION"
+C L "READ_DATA_NBYTES" 1 71 1 "FUNCTION"
+C L "READ_DATA_NBYTES" 1 71 1 "FUNCTION"
+F N "READ_CHIP_ID_OF" 1 176 ""
+F G "READ_CHIP_ID_OF" 1 177 "int8()" `875 
+C L "READ_CHIP_ID_OF" 1 71 1 "FUNCTION"
+V L "chip_id" 1 181 "int8" `876 
+C L "READ_CHIP_ID_OF" 1 71 1 "FUNCTION"
+C L "READ_CHIP_ID_OF" 1 71 1 "FUNCTION"
+C L "update_shutdown_count" 1 71 1 "FUNCTION"
+F N "update_shutdown_count" 1 194 ""
+F G "update_shutdown_count" 1 194 "int8()" `877 
+V L "shutdown_count" 1 197 "int8[1]" `883 
+C L "update_shutdown_count" 1 71 1 "FUNCTION"
+C L "update_shutdown_count" 1 71 1 "FUNCTION"
+C L "update_shutdown_count" 1 71 1 "FUNCTION"
+C L "update_shutdown_count" 1 71 1 "FUNCTION"
+V L "verify_count" 1 214 "int8[1]" `889 
+F N "set_clock" 1 227 ""
+V L "date_time" 1 227 "rtc_time_t" `893 
+F G "set_clock" 1 228 "void(rtc_time_t date_time)" `892 
+C L "handle_flash_memories" 1 71 2 "FUNCTION"
+F N "handle_flash_memories" 1 241 ""
+F G "handle_flash_memories" 1 241 "void()" `894 
+V L "flash_option" 1 242 "int8" `895 
+C L "handle_flash_memories" 1 71 1 "FUNCTION"
+C L "handle_flash_memories" 1 71 1 "FUNCTION"
+C L "handle_flash_memories" 1 71 1 "FUNCTION"
+F N "handle_main_flash_memory" 1 269 ""
+F G "handle_main_flash_memory" 1 269 "void()" `904 
+V L "main_flash_option" 1 270 "int8" `905 
+V L "address" 1 271 "int32" `906 
+V L "data" 1 272 "int8[32]" `907 
+V L "data_length" 1 273 "int8" `908 
+C L "handle_main_flash_memory" 1 71 1 "FUNCTION"
+C L "handle_main_flash_memory" 1 71 1 "FUNCTION"
+V L "i" 1 295 "int8" `927 
+C L "handle_main_flash_memory" 1 71 2 "FUNCTION"
+F N "handle_set_time" 1 317 ""
+F G "handle_set_time" 1 317 "void()" `938 
+V L "write_clock" 1 318 "rtc_time_t" `939 
+V L "read_clock" 1 318 "rtc_time_t" `940 
+F N "handle_io_control" 1 330 ""
+F G "handle_io_control" 1 330 "void()" `948 
+V L "io_option" 1 331 "int8" `949 
+V L "state_of_pin" 1 332 "int8" `950 
+C L "handle_io_control" 1 71 1 "FUNCTION"
+F N "main_menu" 1 434 ""
+F G "main_menu" 1 434 "void()" `978 
+V L "option" 1 435 "int8" `979  "char flash_option;           // Variable to capture flash memory option"
+C L "main_menu" 1 71 6 "FUNCTION"
+C L "main_menu" 1 71 1 "FUNCTION"
+C L "main_menu" 1 71 1 "FUNCTION"
+C L "main_menu" 1 71 1 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+C L "main_menu" 1 71 2 "FUNCTION"
+V G "bichig" 0 20 "int8[21]" `1003 
+V G "read_data" 0 21 "int8[80]" `1004 
 F N "MAIN" 0 23 ""
-F G "MAIN" 0 23 "void()" `974 
+F G "MAIN" 0 23 "void()" `1005 
 C L "MAIN" 0 19 1 "FUNCTION"
-V L "write_clock" 0 28 "rtc_time_t" `980 
-V L "read_clock" 0 28 "rtc_time_t" `981 
+V L "write_clock" 0 28 "rtc_time_t" `1011 
+V L "read_clock" 0 28 "rtc_time_t" `1012 
 C L "MAIN" 0 19 1 "FUNCTION"
-C L "MAIN" 0 19 18 "FUNCTION"
-V L "chip_id" 0 57 "int8[8]" `983 
-V L "i" 0 59 "int8" `984 
+C L "MAIN" 0 19 2 "FUNCTION"
+C L "MAIN" 0 19 14 "FUNCTION"
+V L "chip_id" 0 58 "int8[8]" `1015 
+V L "i" 0 60 "int8" `1016 
 C L "MAIN" 0 19 3 "FUNCTION"
-V L "i" 0 73 "int8" `991 
+V L "i" 0 74 "int8" `1023 
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 1

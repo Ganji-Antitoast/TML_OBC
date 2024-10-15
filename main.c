@@ -31,29 +31,30 @@ void main() {
     rtc_read(&read_clock);
 
     //------------------------Start_Indicator-----------------------
+    delay_ms(1000);
     fprintf(EXT, "POWER ON!\n");
     //------------------------restart_indicator-----------------------
-    // #define SHUTDOWN_COUNT_ADDRESS  0x00000500
-    //  update_shutdown_count();
-    //   #define SHUTDOWN_COUNT_ADDRESS  0x00000500  // Address where shutdown count is stored
-    //     fprintf(EXT, "Shutdown count started\n");
-    //    unsigned int8 shutdown_count[1];  
-    //    READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
-    //    delay_ms(10);
-    //
-    //    // Check if the shutdown count is uninitialized
-    //    if (shutdown_count[0] == 0xFF) {
-    //        shutdown_count[0] = 0;  // Initialize to 0 if uninitialized
-    //         fprintf(EXT, "Shutdown count uninitialized, setting to 0\n");
-    //    }
-    //
-    //    shutdown_count[0] += 1;  // Increment the shutdown count
-    //    WRITE_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
-    //    delay_ms(10);
-    //
-    //    // Print the updated shutdown count
-    //     fprintf(EXT, "Shutdown count: %u\n", shutdown_count[0]);
-    //    fprintf(EXT, "Reading chip ID\n");
+//     #define SHUTDOWN_COUNT_ADDRESS  0x00000500
+      update_shutdown_count();
+//       #define SHUTDOWN_COUNT_ADDRESS  0x00000500  // Address where shutdown count is stored
+//         fprintf(EXT, "Shutdown count started\n");
+//        unsigned int8 shutdown_count[1];  
+//        READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
+//        delay_ms(10);
+//    
+//        // Check if the shutdown count is uninitialized
+//        if (shutdown_count[0] == 0xFF) {
+//            shutdown_count[0] = 0;  // Initialize to 0 if uninitialized
+//             fprintf(EXT, "Shutdown count uninitialized, setting to 0\n");
+//        }
+//    
+//        shutdown_count[0] += 1;  // Increment the shutdown count
+//        WRITE_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
+//        delay_ms(10);
+    
+        // Print the updated shutdown count
+//         fprintf(EXT, "Shutdown count: %u\n", shutdown_count[0]);
+        fprintf(EXT, "Reading chip ID\n");
     unsigned char chip_id[8];
     READ_CHIP_ID_OF();
     for (int i = 0; i < 8; i++) {
