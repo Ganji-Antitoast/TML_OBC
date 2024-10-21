@@ -1,6 +1,11 @@
 /* 
  * File:   SPI.h
  * Author: Ganji
+ *  ____    _    _   _     _ ___ 
+   / ___|  / \  | \ | |   | |_ _|
+  | |  _  / _ \ |  \| |_  | || | 
+  | |_| |/ ___ \| |\  | |_| || | 
+   \____/_/   \_\_| \_|\___/|___| 
  *
  * Created on September 12, 2024, 7:30 AM
  */
@@ -23,17 +28,19 @@ extern "C" {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #use rs232(baud=9600, parity=N, xmit=PIN_E5, rcv=PIN_E4, bits=8, stream=EPS) //EPS DATA ACQUISITION
 #use rs232(baud=9600, parity=N, xmit=PIN_C6, rcv=PIN_C7, bits=8, stream=EXT) //MAIN RAB Rear access board 
-#use rs232(baud=9600, parity=N, xmit=PIN_D2, rcv=PIN_D3, bits=8, stream=COM, FORCE_SW) //MAIN COM Communication, send CW data 
-#use rs232(baud=9600, parity=N, xmit=PIN_F7, rcv=PIN_F6, bits=8, stream=CAM, FORCE_SW) //MAIN CAM Communicationx
+#use rs232(baud=57600, parity=N, xmit=PIN_D2, rcv=PIN_D3, bits=8, stream=COM, FORCE_SW) //MAIN COM Communication, send CW data 
+#use rs232(baud=57600, parity=N, xmit=PIN_F7, rcv=PIN_F6, bits=8, stream=CAM, FORCE_SW) //MAIN CAM Communicationx
 #use spi(MASTER, CLK=PIN_E1, DI=PIN_E0, DO=PIN_E6,  BAUD=10000, BITS=8, STREAM=MAIN_FM, MODE=0) //MAIN flash memory port
 #use spi(MASTER, CLK=PIN_B2, DI=PIN_B5, DO=PIN_B4,  BAUD=10000, BITS=8, STREAM=COM_FM, MODE=0) //COM shared flash memory port
 #use spi(MASTER, CLK=PIN_A3, DI=PIN_A0, DO=PIN_A1,  BAUD=10000, BITS=8, STREAM=ADCS_FM, MODE=0) //ADCS shared flash memory port, Camera module (ovcam,mvcam)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
+//SPI Stream alter name 
 #define SPIPORT MAIN_FM
 #define SPIPORT2 COM_FM
 #define SPIPORT3 ADCS_FM    
-    
+
+//Flash memory chip select pins and mux control 
 #define CS_PIN_1 PIN_E2 //OBC_FLASH_SELECT
 #define CS_PIN_2 PIN_B3 //COM_CHIP_SELECT
 #define CS_PIN_3 PIN_A2 //ADCS_CHIP_SELECT
@@ -43,7 +50,7 @@ extern "C" {
 #define MX_PIN_4 PIN_C4 //COM_MUX_SELECT
 
 
-
+//mt25q flash memory command assigment
 #define READ_ID              0x9F
 #define READ_STATUS_REG      0x05 
 #define READ_DATA_BYTES      0x13  //0x03 for byte
@@ -54,16 +61,20 @@ extern "C" {
 #define ERASE_32KB_SUBSECTOR 0x5C
 #define DIE_ERASE            0xC4
 #define FAST_READ            0x0B
-    
+
+//memory maping     
 #define SHUTDOWN_COUNT_ADDRESS 0x00100010
 
-
+//digtal control pins 
 #define EN_SUP_3V3_1 PIN_B0
 #define EN_SUP_3V3_2 PIN_G1
 #define EN_SUP_3V3_DAQ PIN_D0
 #define EN_SUP_UNREG PIN_B1
 #define EN_SUP_5V0 PIN_D1
 #define KILL_SWITCH PIN_A4
+#define MVCAM_PWR PIN_G0
+#define OVCAM_PWR PIN_D7
+    
     
 void WRITE_ENABLE_OF(){
  output_low(CS_PIN_1);
@@ -165,7 +176,7 @@ void READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned char *Data_return, unsign
     // Read the requested number of bytes
     for (int i = 0; i < data_number; i++) {
         Data_return[i] = spi_xfer(SPIPORT, 0x00);  // Send dummy byte to receive data
-        fprintf(EXT,"%02X ", Data_return[i]);           // Print each byte as hex
+        fprintf(EXT,"%c", Data_return[i]);           // Print each byte as hex
     }
 
     output_high(CS_PIN_1);  // Deselect SPI device after reading
@@ -173,21 +184,46 @@ void READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned char *Data_return, unsign
 }
 
 
-int8 READ_CHIP_ID_OF()
-{
- output_low(CS_PIN_1);           //lower the CS PIN
- 
- ////////////////////////////////////////////////////////////////
- int8 chip_id;
- spi_xfer(SPIPORT,READ_ID);    //READ ID COMAND   (0x9F)
- chip_id = spi_xfer(SPIPORT);
- ////////////////////////////////////////////////////////////////
- 
- output_high(CS_PIN_1);         //take CS PIN higher back
- 
- return chip_id;
+void READ_CHIP_ID_OF(int8 *chip_id) {
+    output_low(CS_PIN_1);  // Lower the CS PIN
+    spi_xfer(SPIPORT, READ_ID);  // READ ID COMMAND (0x9F)
+    
+    // Receive 8 bytes of chip ID
+    for (int i = 0; i < 8; i++) {
+        chip_id[i] = spi_xfer(SPIPORT, 0x00);  // Send dummy bytes to receive data
+    }
+
+    output_high(CS_PIN_1);  // Raise CS PIN back
 }
 
+
+void startup_freeze(){
+    delay_ms(2000);
+    fprintf(EXT, "POWER ON!\n");
+}
+
+void RTC_initialize(){
+        setup_lcd(LCD_DISABLED);
+    rtc_time_t read_clock;
+    setup_rtc(RTC_ENABLE | RTC_CLOCK_SOSC | RTC_CLOCK_INT, 0);
+    rtc_read(&read_clock);
+
+}
+
+void uart_repeater() {
+    char received_data;
+
+    while (TRUE) {
+        // Check if data is available on the EPS stream
+        if (kbhit(EPS)) {
+            // Read one byte from the EPS stream
+            received_data = fgetc(EPS);
+
+            // Send the received byte to the EXT stream
+            fputc(received_data, EXT);
+        }
+    }
+}
 
 //#define SHUTDOWN_COUNT_ADDRESS  0x00000500  // Address where shutdown count is stored
 
@@ -227,7 +263,7 @@ int8 update_shutdown_count(void) {
 void set_clock(rtc_time_t &date_time)
 {
 
-   date_time.tm_year=00;
+   date_time.tm_year=0000;
    date_time.tm_mon=00;
    date_time.tm_mday=00;
    date_time.tm_wday=00;
@@ -283,7 +319,8 @@ void handle_main_flash_memory() {
     switch (main_flash_option) {
         case 'a':
             fprintf(EXT, "Started reading chip ID of MAIN flash memory\n");
-            READ_CHIP_ID_OF();  // Replace with actual function
+            int8 chip_id[8];
+            READ_CHIP_ID_OF(chip_id);  // Replace with actual function
             break;
         case 'b':
             fprintf(EXT, "Write data set in specified address\n");
@@ -315,6 +352,14 @@ void handle_main_flash_memory() {
 }
 
 void handle_set_time() {
+    char handle_set_time_option;
+    fprintf(EXT, "Settings of RTC chosen\n");
+    fprintf(EXT, "    press a: to reset the RTC /all current time will be set zero/\n");
+    fprintf(EXT, "    press b: display current time\n");
+    handle_set_time_option = fgetc(EXT);
+
+    switch (handle_set_time_option) {
+        case 'a':
     rtc_time_t write_clock, read_clock;
     rtc_read(&read_clock);
     fprintf(EXT, "Now time is\n");
@@ -325,6 +370,19 @@ void handle_set_time() {
     fprintf(EXT, "Time successfully changed. Current time is:\n");
     rtc_read(&read_clock);
     fprintf(EXT, "\r%02u/%02u/20%02u %02u:%02u:%02u", read_clock.tm_mon, read_clock.tm_mday, read_clock.tm_year, read_clock.tm_hour, read_clock.tm_min, read_clock.tm_sec);
+    break;
+        case 'b':
+            rtc_read(&read_clock);
+    fprintf(EXT, "\r%02u/%02u/20%02u %02u:%02u:%02u", read_clock.tm_mon, read_clock.tm_mday, read_clock.tm_year, read_clock.tm_hour, read_clock.tm_min, read_clock.tm_sec);
+    break;
+        case 'x':
+            break;
+            return;
+        default:
+            fprintf(EXT, "Invalid IO option. Please try again.\n");
+    break;
+            
+}
 }
 
 void handle_io_control() {
@@ -388,7 +446,25 @@ void handle_io_control() {
     }else {
         fprintf(EXT, "Invalid\n"); 
     }
-    fprintf(EXT, "    press g: Toggle all Pins");
+        state_of_pin = input_state(MVCAM_PWR);
+    fprintf(EXT, "    press g: Toggle MVCAM_PWR /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+        state_of_pin = input_state(OVCAM_PWR);
+    fprintf(EXT, "    press h: Toggle OVCAM_PWR /is currently/");
+    if(state_of_pin == 1 ){
+        fprintf(EXT, "HIGH\n");
+    }else if(state_of_pin == 0){
+        fprintf(EXT, "LOW\n");
+    }else {
+        fprintf(EXT, "Invalid\n"); 
+    }
+    fprintf(EXT, "    press i: Toggle all Pins");
     
 
     io_option = fgetc(EXT);
@@ -413,6 +489,14 @@ void handle_io_control() {
             output_toggle(KILL_SWITCH);
             break;
         case 'g':
+            output_toggle(MVCAM_PWR);
+            break;
+        case 'h':
+            output_toggle(OVCAM_PWR);        
+            break;
+        case 'i' :
+            output_toggle(OVCAM_PWR);
+            output_toggle(MVCAM_PWR);  
             output_toggle(KILL_SWITCH);
             output_toggle(EN_SUP_5V0);
             output_toggle(EN_SUP_UNREG);
@@ -421,6 +505,7 @@ void handle_io_control() {
             output_toggle(EN_SUP_3V3_1);
             break;
         case 'x':
+            break;
             return;
         default:
             fprintf(EXT, "Invalid IO option. Please try again.\n");
@@ -433,15 +518,16 @@ void handle_io_control() {
 
 void main_menu(void) {
     char option;
-//    char flash_option;           // Variable to capture flash memory option
-//    char main_flash_option;      // Variable to capture MAIN flash memory option
-//    char com_flash_option;       // Variable to capture COM flash memory option
-//    char adcs_flash_option;      // Variable to capture ADCS flash memory option
-
-//    unsigned int32 address;
-//    unsigned char data[32]; // Maximum data length
-//    unsigned char data_length;
-
+  fprintf(EXT, " __  __ _____ _   _ _   _   _____                 _   _             \n");
+  fprintf(EXT, "|  \\/  | ____| \\ | | | | | |  ___|   _ _ __   ___| |_(_) ___  _ __  \n");
+  fprintf(EXT, "| |\\/| |  _| |  \\| | | | | | |_ | | | | '_ \\ / __| __| |/ _ \\| '_ \\ \n");
+  fprintf(EXT, "| |  | | |___| |\\  | |_| | |  _|| |_| | | | | (__| |_| | (_) | | | |\n");
+  fprintf(EXT, "|_| _|_|_____|_| \\_|\\___/  |_|_  \\__,_|_| |_|\\___|\\__|_|\\___/|_| |_|\n");
+  fprintf(EXT, "   / \\   ___| |_(_)_   ____ _| |_ ___  __| | |                      \n");
+  fprintf(EXT, "  / _ \\ / __| __| \\ \\ / / _` | __/ _ \\/ _` | |                      \n");
+  fprintf(EXT, " / ___ \\ (__| |_| |\\ V / (_| | ||  __/ (_| |_|                      \n");
+  fprintf(EXT, "/_/   \\_\\___|\\__|_| \\_/ \\__,_|\\__\\___|\\__,_(_)                      \n");
+    
     while (1) {
         // Display Main Menu
         fprintf(EXT, "\n-----------------Main Menu-----------------\n");
@@ -450,12 +536,13 @@ void main_menu(void) {
         fprintf(EXT, "    press c: House keeping data collection\n");
         fprintf(EXT, "    press d: Check Flash Memories\n");
         fprintf(EXT, "    press e: See satellite Log\n");
-        fprintf(EXT, "    press f: Set time of RTC\n");
-        fprintf(EXT, "    press g: Satellite log downlink command\n");
+        fprintf(EXT, "    press f: Settings of RTC\n");
+        fprintf(EXT, "    press g: Satellite log down-link command\n");
         fprintf(EXT, "    press h: IHC Mission start\n");
         fprintf(EXT, "    press i: SEL current Measurement\n");
         fprintf(EXT, "    press j: H8 COM Reset\n");
         fprintf(EXT, "    press k: IO control\n");
+        fprintf(EXT, "    press i: UART repeater of EPS\n");
         fprintf(EXT, "    press x: Exit Main Menu\n");
         fprintf(EXT, "    DO NOT USE CAPITAL CHARACTERS TO WRITE!\n\n");
 
@@ -504,6 +591,10 @@ void main_menu(void) {
                 break;
             case 'k':
                 handle_io_control();
+                break;
+            case 'l':
+                fprintf(EXT, "UART Repeater Initialized.\n");
+                uart_repeater();
                 break;
             case 'x':
                 return;
