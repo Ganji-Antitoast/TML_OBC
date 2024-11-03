@@ -41,17 +41,22 @@ MDBIT
 MDOUT
 @sprintf_string
 bichig
+bichigcom
+bichigadcs
 read_data
+buffer
+read_data_com
+read_data_adcs
 
 Project Directory:
     C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\
 
 Project Files:
-    main.c                                                  [14-Oct-24 07:48  CRC=14C18F89]
-    spi.h                                                   [15-Oct-24 16:39  CRC=C9C12726]
+    main.c                                                  [30-Oct-24 14:18  CRC=A7C46680]
+    main.h                                                  [03-Nov-24 17:19  CRC=94302337]
     ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18F67J94.h [12-Nov-13 14:36  CRC=17AC0C0B]
 
-Source signature=0DDACEC5
+Source signature=6B4CA1CD
 
 Units:
     C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main

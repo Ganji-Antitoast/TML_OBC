@@ -1,8 +1,8 @@
-Compiling C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main on 15-Oct-24 at 16:39
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\spi.h:445:1:  Warning#203  Condition always TRUE
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:20:42:  Warning#230  String truncated
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:30:1:  Warning#207  Code has no effect
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:78:1:  Warning#203  Condition always TRUE
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:28:16:  Warning#202  Variable never used:   write_clock
+Compiling C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main on 03-Nov-24 at 17:19
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:447:1:  Warning#204  Condition always FALSE
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:733:1:  Warning#203  Condition always TRUE
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:437:27:  Warning#202  Variable never used:   choice
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:468:19:  Warning#202  Variable never used:   data
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:469:19:  Warning#202  Variable never used:   data_length
 C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.o ===>  0 Errors,  5 Warnings.
 Build Successful.
