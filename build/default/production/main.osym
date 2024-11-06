@@ -39,6 +39,13 @@ C2OUT
 C3OUT
 MDBIT
 MDOUT
+EPS_UART
+COM_UART
+ADCS_HK_ADDRESS
+ADCS_HK_ADDRESS_COUNTER
+SHUT_DOWN_COUNT_ADD
+ADCS_COMMAND
+READ_HK_ADCS
 @sprintf_string
 bichig
 bichigcom
@@ -52,11 +59,11 @@ Project Directory:
     C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\
 
 Project Files:
-    main.c                                                  [30-Oct-24 14:18  CRC=A7C46680]
-    main.h                                                  [03-Nov-24 17:19  CRC=94302337]
+    main.c                                                  [05-Nov-24 22:29  CRC=F121C07A]
+    main.h                                                  [06-Nov-24 19:40  CRC=C21A50FE]
     ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18F67J94.h [12-Nov-13 14:36  CRC=17AC0C0B]
 
-Source signature=6B4CA1CD
+Source signature=E294298E
 
 Units:
     C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main

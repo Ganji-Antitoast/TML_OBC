@@ -31,7 +31,7 @@ extern "C" {
 #use spi(MASTER, CLK=PIN_B2, DI=PIN_B5, DO=PIN_B4,  BAUD=10000, BITS=8, STREAM=COM_FM, MODE=0) //COM shared flash memory port
 #use spi(MASTER, CLK=PIN_A3, DI=PIN_A0, DO=PIN_A1,  BAUD=10000, BITS=8, STREAM=ADCS_FM, MODE=0) //ADCS shared flash memory port, Camera module (ovcam,mvcam)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+#use spi(MASTER, CLK=PIN_B2, DI=PIN_B5, DO=PIN_B4,  BAUD=10000, BITS=8, STREAM=COM_FM, MODE=0, FORCE_SW) //COM shared flash memory port
 //SPI Stream alter name 
 #define SPIPORT MAIN_FM
 #define SPIPORT2 COM_FM
@@ -62,7 +62,7 @@ extern "C" {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //memory maping     
-#define SHUTDOWN_COUNT_ADDRESS 0x00100010
+#define SHUTDOWN_COUNT_ADDRESS 0x00100011
 
 //digtal control pins 
 #define EN_SUP_3V3_1 PIN_B0
@@ -75,7 +75,14 @@ extern "C" {
 #define OVCAM_PWR PIN_D7
 #define ADCS_PWR PIN_D6
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    int8 EPS_UART
+//FLAG variable
+    int8 EPS_UART = 0;
+    int8 COM_UART = 0;
+    int8 ADCS_HK_ADDRESS = 0x00010000;
+    int8 ADCS_HK_ADDRESS_COUNTER = 0x00000000;
+    int8 SHUT_DOWN_COUNT_ADD = 0x00010000;
+    int8 ADCS_COMMAND = 0x02;
+    unsigned char *READ_HK_ADCS[16];
     
     
 void WRITE_ENABLE_OF(){
@@ -104,7 +111,7 @@ void WRITE_ENABLE_OF_ADCS(){
  return;
 }
 
-void WRITE_DATA_NBYTES(unsigned int32 ADDRESS, unsigned int8 data[], unsigned char data_number) {
+void WRITE_DATA_NBYTES(unsigned int32 ADDRESS, unsigned int8* data[], unsigned char data_number) {
     fprintf(EXT,"WRITE ADDRESS: 0x%08lx\n", ADDRESS);  // Print address as hex
     unsigned int8 adsress[4];
     // Byte extraction for a 32-bit address
@@ -203,14 +210,15 @@ void WRITE_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned int8 data[], unsign
 }
  
 
-void READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned char *Data_return, unsigned short data_number) {
+char* READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
-   
+    static unsigned char Data_return[256];  //  max data_number capacitance
+
     // Byte extraction for a 32-bit address
-    adsress[0]  = (unsigned int8)((ADDRESS >> 24) & 0xFF);
-    adsress[1]  = (unsigned int8)((ADDRESS >> 16) & 0xFF);
-    adsress[2]  = (unsigned int8)((ADDRESS >> 8) & 0xFF);
-    adsress[3]  = (unsigned int8)(ADDRESS & 0xFF);
+    adsress[0] = (unsigned int8)((ADDRESS >> 24) & 0xFF);
+    adsress[1] = (unsigned int8)((ADDRESS >> 16) & 0xFF);
+    adsress[2] = (unsigned int8)((ADDRESS >> 8) & 0xFF);
+    adsress[3] = (unsigned int8)(ADDRESS & 0xFF);
 
     output_low(CS_PIN_1);  // Select SPI device
 
@@ -221,49 +229,93 @@ void READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned char *Data_return, unsign
     spi_xfer(SPIPORT, adsress[1]);
     spi_xfer(SPIPORT, adsress[2]);
     spi_xfer(SPIPORT, adsress[3]);
+
     // Read the requested number of bytes
-    for (int i = 0; i < data_number; i++) {
+    for (int i = 0; i < data_number && i < 256; i++) {  // Avoid overflow
         Data_return[i] = spi_xfer(SPIPORT, 0x00);  // Send dummy byte to receive data
-        fprintf(EXT,"%c", Data_return[i]);           // Print each byte as hex
+        fprintf(EXT, "%c", Data_return[i]);  // Print each byte as hex
     }
 
     output_high(CS_PIN_1);  // Deselect SPI device after reading
-    fprintf(EXT,"\n");
-    return ;
-} 
+    fprintf(EXT, "\n");
 
-void READ_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned char *Data_return, unsigned short data_number) {
+    return Data_return;
+}
+
+
+
+char* READ_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
-   
+    static unsigned char Data_return[256];  // Adjust size based on expected max data_number
+
     // Byte extraction for a 32-bit address
-    adsress[0]  = (unsigned int8)((ADDRESS >> 24) & 0xFF);
-    adsress[1]  = (unsigned int8)((ADDRESS >> 16) & 0xFF);
-    adsress[2]  = (unsigned int8)((ADDRESS >> 8) & 0xFF);
-    adsress[3]  = (unsigned int8)(ADDRESS & 0xFF);
+    adsress[0] = (unsigned int8)((ADDRESS >> 24) & 0xFF);
+    adsress[1] = (unsigned int8)((ADDRESS >> 16) & 0xFF);
+    adsress[2] = (unsigned int8)((ADDRESS >> 8) & 0xFF);
+    adsress[3] = (unsigned int8)(ADDRESS & 0xFF);
 
     output_low(MX_PIN_COM);  // Lower MX to connect to flash device
     output_low(CS_PIN_COM);  // Select SPI device
 
-    // Send READ DATA COMMAND (0x13 or appropriate for your flash chip)
+    // Send READ DATA COMMAND
     spi_xfer(SPIPORT2, READ_DATA_BYTES);
     // Send address bytes
     spi_xfer(SPIPORT2, adsress[0]);
     spi_xfer(SPIPORT2, adsress[1]);
     spi_xfer(SPIPORT2, adsress[2]);
     spi_xfer(SPIPORT2, adsress[3]);
+
     // Read the requested number of bytes
-    for (int i = 0; i < data_number; i++) {
-        Data_return[i] = spi_xfer(SPIPORT, 0x00);  // Send dummy byte to receive data
-        fprintf(EXT,"%c", Data_return[i]);           // Print each byte as hex
+    for (int i = 0; i < data_number && i < 256; i++) {
+        Data_return[i] = spi_xfer(SPIPORT2, 0x00);  // Send dummy byte to receive data
+        fprintf(EXT, "%c", Data_return[i]);         // Print each byte
     }
-    fprintf(EXT,"\n");
-    
-    output_high(CS_PIN_COM);  // Deselect SPI device after reading
-    output_high(MX_PIN_COM);  //Deselect MUX from flash
+    fprintf(EXT, "\n");
+
+    output_high(CS_PIN_COM);  // Deselect SPI device
+    output_high(MX_PIN_COM);  // Deselect MUX from flash
+
+    return Data_return;
 }
 
-void READ_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned char *Data_return, unsigned short data_number) {
+char* READ_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
+    static unsigned char Data_return[256];  // Adjust size based on expected max data_number
+
+    // Byte extraction for a 32-bit address
+    adsress[0] = (unsigned int8)((ADDRESS >> 24) & 0xFF);
+    adsress[1] = (unsigned int8)((ADDRESS >> 16) & 0xFF);
+    adsress[2] = (unsigned int8)((ADDRESS >> 8) & 0xFF);
+    adsress[3] = (unsigned int8)(ADDRESS & 0xFF);
+
+    output_low(MX_PIN_ADCS);  // Lower MX to connect to flash device
+    output_low(CS_PIN_ADCS);  // Select SPI device
+
+    // Send READ DATA COMMAND
+    spi_xfer(SPIPORT3, READ_DATA_BYTES);
+    // Send address bytes
+    spi_xfer(SPIPORT3, adsress[0]);
+    spi_xfer(SPIPORT3, adsress[1]);
+    spi_xfer(SPIPORT3, adsress[2]);
+    spi_xfer(SPIPORT3, adsress[3]);
+
+    // Read the requested number of bytes
+    for (int i = 0; i < data_number && i < 256; i++) {
+        Data_return[i] = spi_xfer(SPIPORT3, 0x00);  // Send dummy byte to receive data
+        fprintf(EXT, "%c", Data_return[i]);         // Print each byte
+    }
+    fprintf(EXT, "\n");
+
+    output_high(CS_PIN_ADCS);  // Deselect SPI device
+    output_high(MX_PIN_ADCS);  // Deselect MUX from flash
+
+    return Data_return;
+}
+
+
+int8 READ_DATA_BYTES_ADCS(unsigned int32 ADDRESS) {
+    unsigned int8 adsress[4];
+    unsigned int8 Data_return;
    
     // Byte extraction for a 32-bit address
     adsress[0]  = (unsigned int8)((ADDRESS >> 24) & 0xFF);
@@ -282,16 +334,12 @@ void READ_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned char *Data_return, u
     spi_xfer(SPIPORT3, adsress[2]);
     spi_xfer(SPIPORT3, adsress[3]);
     // Read the requested number of bytes
-    for (int i = 0; i < data_number; i++) {
-        Data_return[i] = spi_xfer(SPIPORT, 0x00);  // Send dummy byte to receive data
-        fprintf(EXT,"%c", Data_return[i]);           // Print each byte as hex
-    }
-    fprintf(EXT,"\n");
-    
+        Data_return = spi_xfer(SPIPORT, 0x00);  // Send dummy byte to receive data
+
     output_high(CS_PIN_ADCS);  // Deselect SPI device after reading
     output_high(MX_PIN_ADCS);  //Deselect MUX from flash
+    return Data_return;
 }
-
 void READ_CHIP_ID_OF() {
     int8 chip_id[8];
     output_low(CS_PIN_1);  // Lower the CS PIN
@@ -340,17 +388,35 @@ void READ_CHIP_ID_OF_ADCS() {
     output_high(MX_PIN_ADCS);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Command operation
+//void SEND_COMMAND_ADCS(void){
+//    WRITE_DATA_NBYTES_ADCS(ADCS_HK_ADDRESS, ADCS_COMMAND,1);
+//}
+////void READ_HK_ADCS(void){
+////    int8 state_of_pin = 0;
+////    
+////    state_of_pin = input_state(EN_SUP_3V3_2);
+////    if(state_of_pin = FALSE){ 
+////        READ_DATA_NBYTES_ADCS(ADCS_HK_ADDRESS[16], READ_HK_ADCS, 16);
+////        
+////    }
+////}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////EEPROM operation 
+////thus functions used to store essential data order to prevent loosing it in unexpected shutdowns  
+//void EEPROM_
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Main menu functions
 
 void startup_freeze(){
     delay_ms(2000);
     fprintf(EXT, "POWER ON!\n");
-    output_low(EN_SUP_3V3_1);
-    output_low(EN_SUP_3V3_2 );
-    output_low(EN_SUP_3V3_DAQ );
-    output_low(EN_SUP_UNREG);
-    output_low(EN_SUP_5V0);
+    output_high(EN_SUP_3V3_1);
+    output_high(EN_SUP_3V3_2 );
+    output_high(EN_SUP_3V3_DAQ);
+    output_high(EN_SUP_UNREG);
+    output_high(EN_SUP_5V0);
     output_low(MVCAM_PWR);
     output_low(OVCAM_PWR);
     output_high(ADCS_PWR);
@@ -371,7 +437,7 @@ void RTC_initialize(){
     rtc_time_t read_clock;
     setup_rtc(RTC_ENABLE | RTC_CLOCK_SOSC | RTC_CLOCK_INT, 0);
     rtc_read(&read_clock);
-    fprintf(EXT, "RTCC setup started!\n");
+    fprintf(EXT, "RTCC setup finished!\n");
 
 }
 
@@ -390,38 +456,31 @@ void uart_repeater() {
     }
 }
 
-//#define SHUTDOWN_COUNT_ADDRESS  0x00000500  // Address where shutdown count is stored
+//#define SHUTDOWN_COUNT_ADDRESS  0x00001000  // Address where shutdown count is stored
 
 int8 update_shutdown_count(void) {
     fprintf(EXT, "Shutdown count started\n");
 
-    unsigned int8 shutdown_count[1];
-    READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
+    // Read shutdown count directly from memory
+    unsigned char shutdown_count[1];
+    shutdown_count[0] = READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, 1); // Updated call
     delay_ms(10);
 
     fprintf(EXT, "Read shutdown count: %u\n", shutdown_count[0]);
 
-    // Check if the shutdown count is uninitialized (0xFF)
-    if (shutdown_count[0] == 0xFF) {
-        shutdown_count[0] = 0;  // Initialize to 0 if uninitialized
-        fprintf(EXT, "Shutdown count uninitialized, setting to 0\n");
-    }
+    shutdown_count[0]++;  // Increment the shutdown count
+    fprintf(EXT, "Incremented shutdown count: %u\n", shutdown_count[0]);
 
-    shutdown_count[0] += 1;  // Increment the shutdown count
+    // Write the updated shutdown count back to memory
     WRITE_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, shutdown_count, 1);
     delay_ms(10);
 
-    // Read back to verify it was written correctly
-    unsigned int8 verify_count[1];
-    READ_DATA_NBYTES(SHUTDOWN_COUNT_ADDRESS, verify_count, 1);
-    if (shutdown_count[0] == verify_count[0]) {
-        fprintf(EXT, "Shutdown count successfully updated: %u\n", verify_count[0]);
-    } else {
-        fprintf(EXT, "Failed to update shutdown count. Read back: %u\n", verify_count[0]);
-    }
+    fprintf(EXT, "Now shutdown count is : %u\n\n", shutdown_count[0]);
 
     return shutdown_count[0];
 }
+
+
 void set_clock(rtc_time_t &date_time){
 
    date_time.tm_year=0000;

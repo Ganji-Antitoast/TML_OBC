@@ -198,6 +198,8 @@
         <property key="preprocessor-macros-windows" value=""/>
       </ccscompiler>
       <item path="main.h" ex="true" overriding="false">
+        <ccscompiler>
+        </ccscompiler>
       </item>
     </conf>
   </confs>

@@ -21,10 +21,10 @@
 char bichig[25] = "test data update of MAIN";
 char bichigcom[24] = "test data update of COM";
 char bichigadcs[25] = "test data update of ADCS";
-unsigned char *read_data[80];
+char *read_data;
 unsigned char buffer[40];
-char read_data_com[80];
-char read_data_adcs[80];
+char *read_data_com[80];
+char *read_data_adcs[80];
 
 void main() {
     //------------------------Start_Indicator-------------------------
@@ -44,31 +44,32 @@ RTC_initialize();
     delay_ms(1000);
 //------------------------write_flash_memory--------------------------
     //  fprintf(EXT, "Starting to write data\n");
-    WRITE_DATA_NBYTES(0x00005000,bichig,29);
+//    WRITE_DATA_NBYTES(0x00005000,bichig,29);
     delay_ms(1000);
-    READ_DATA_NBYTES(0x00005000,read_data, 29);
+    read_data = READ_DATA_NBYTES(0x00005000, 29);
     delay_ms(1000);
-    for (int i = 0; i < buffer[i]; i++) {
-        fprintf(EXT, "%c", buffer[i]);
+    for (int i = 0; i < read_data[i]; i++) {
+        fprintf(EXT, "%c", read_data[i]);
+        delay_ms(2);
     }
-    fprintf(EXT, "\n");
-    WRITE_DATA_NBYTES_COM(0x00005000,bichigcom,29);
-    delay_ms(1000);
-    READ_DATA_NBYTES_COM(0x00005000,read_data_com, 29);
-    delay_ms(1000);
-    WRITE_DATA_NBYTES_ADCS(0x00005000,bichigadcs,29);
-    delay_ms(1000);
-    READ_DATA_NBYTES_ADCS(0x00005000,read_data_adcs, 29);
-    delay_ms(1000);
-    
-    //   WRITE_DATA_NBYTES(0x00000250,bichig,40);
-//    WRITE_DATA_NBYTES(0x00000300, bichig, 20);
-//    fprintf(EXT, "Byte saved\n");
-//    fprintf(EXT, "Reading desired address\n");
-//    fprintf(EXT, "Reading... \n");
-//    char baba;
-     READ_DATA_NBYTES(0x00000300, read_data, 20);
-    fprintf(EXT, "%c", read_data);
+//    fprintf(EXT, "\n"); 
+//    WRITE_DATA_NBYTES_COM(0x00005000,bichigcom,29);
+//    delay_ms(1000);
+//    READ_DATA_NBYTES_COM(0x00005000,read_data_com, 29);
+//    delay_ms(1000);
+//    WRITE_DATA_NBYTES_ADCS(0x00005000,bichigadcs,29);
+//    delay_ms(1000);
+//    READ_DATA_NBYTES_ADCS(0x00005000,read_data_adcs, 29);
+//    delay_ms(1000);
+//    
+//    //   WRITE_DATA_NBYTES(0x00000250,bichig,40);
+////    WRITE_DATA_NBYTES(0x00000300, bichig, 20);
+////    fprintf(EXT, "Byte saved\n");
+////    fprintf(EXT, "Reading desired address\n");
+////    fprintf(EXT, "Reading... \n");
+////    char baba;
+//    READ_DATA_NBYTES(0x00000300, read_data, 20);
+//    fprintf(EXT, "%c", read_data);
     for (int i = 0; i < 19; i++) {
         fprintf(EXT, "%c", read_data[i]);
     }

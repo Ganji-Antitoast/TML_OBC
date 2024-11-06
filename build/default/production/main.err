@@ -1,8 +1,21 @@
-Compiling C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main on 03-Nov-24 at 17:19
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:447:1:  Warning#204  Condition always FALSE
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:733:1:  Warning#203  Condition always TRUE
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:437:27:  Warning#202  Variable never used:   choice
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:468:19:  Warning#202  Variable never used:   data
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:469:19:  Warning#202  Variable never used:   data_length
-C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.o ===>  0 Errors,  5 Warnings.
+Compiling C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main on 06-Nov-24 at 19:40
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:508:1:  Warning#204  Condition always FALSE
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:794:1:  Warning#203  Condition always TRUE
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:79:10:  Warning#202  Variable never used:   EPS_UART
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:80:10:  Warning#202  Variable never used:   COM_UART
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:81:10:  Warning#202  Variable never used:   ADCS_HK_ADDRESS
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:82:10:  Warning#202  Variable never used:   ADCS_HK_ADDRESS_COUNTER
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:83:10:  Warning#202  Variable never used:   SHUT_DOWN_COUNT_ADD
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:84:10:  Warning#202  Variable never used:   ADCS_COMMAND
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:85:20:  Warning#202  Variable never used:   READ_HK_ADCS
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:498:27:  Warning#202  Variable never used:   choice
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:529:19:  Warning#202  Variable never used:   data
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.h:530:19:  Warning#202  Variable never used:   data_length
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:21:6:  Warning#202  Variable never used:   bichig
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:22:6:  Warning#202  Variable never used:   bichigcom
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:23:6:  Warning#202  Variable never used:   bichigadcs
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:25:15:  Warning#202  Variable never used:   buffer
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:26:7:  Warning#202  Variable never used:   read_data_com
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.c:27:7:  Warning#202  Variable never used:   read_data_adcs
+C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main.o ===>  0 Errors,  18 Warnings.
 Build Successful.
