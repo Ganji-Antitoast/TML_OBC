@@ -1,12 +1,12 @@
 
-ROM used:   11032/131056 (8%)
-            11032/131056 (8%) including unused fragments
+ROM used:   11036/131056 (8%)
+            11036/131056 (8%) including unused fragments
 
             4.7 Average locations per line
             21.9 Average locations per statement
 
-RAM used:   1251/3578 (35%) at main() level
-            1580/3578 (44%) worst case
+RAM used:   483/3578 (13%) at main() level
+            812/3578 (23%) worst case
 
 Stack used: 3 worst case (3 in main + 0 for interrupts)
 Stack size: 30
@@ -15,10 +15,10 @@ Lines Stmts  %   Files
 ----- ----- ---  -----
     3     0   0  $linker.c
    86    28   6  main.c
-  873   475  94  main.h
+  879   475  94  main.h
  1385     0   0  ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18F67J94.h
 ----- -----
- 2347   503 Total
+ 2353   503 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -41,7 +41,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     28   0    0             @const877
 0     32   0    0             @const882
 0     28   0    0             @const886
-0    218   1   15   1119  7.3  READ_DATA_NBYTES
+0    242   1  271   1110  7.3  READ_DATA_NBYTES
 0    128   1   11    325  4.2  READ_CHIP_ID_OF
 0    140   1   11    377  4.2  READ_CHIP_ID_OF_COM
 0    140   1   11    377  4.2  READ_CHIP_ID_OF_ADCS
@@ -53,7 +53,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     18   0    0             @BCD2BYTE
 0     22   0    0             @const940
 0     24   0    1    117  3.0  uart_repeater
-0    250   1    1    459  3.7  update_shutdown_count
+0    254   1    1    459  3.7  update_shutdown_count
 0     24   0    0             @const944
 0     26   0    0             @const946
 0    124   1    2             @PRINTF_U_808
@@ -175,7 +175,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     46   0    0             @const1092
 0     28   0    0             @const1093
 0     36   0    0             @const1094
-0    580   3    3    893  5.3  MAIN
+0    556   3    3    893  5.3  MAIN
 0     26   0    0             @const1105
 0     24   0    0             @const1106
 0     26   0    0             @const1107
@@ -187,10 +187,10 @@ Program metrics:
     Functions               18
     Statements              503
     Comments                9
-    Volume (V)              24792
+    Volume (V)              24779
     Difficulty (D)          76.8
-    Effort to implement (E) 1904494
-    Time to implement (T)   29 hours, 23 minutes
+    Effort to implement (E) 1903274
+    Time to implement (T)   29 hours, 22 minutes
     Est Delivered Bugs (B)  5
     Cyclomatic Complexity   70
     Maintainability (MI)    123
@@ -198,7 +198,7 @@ Program metrics:
  Segment     Used  Free
 -----------  ----  ----
 00000-00004     6  0  
-00006-0FFFE  11026  54504  
+00006-0FFFE  11030  54500  
 10000-1FFEE     0  65520  
 
 

@@ -1,5 +1,5 @@
 ÀÄTML_OBC
-   ÀÄMAIN  0/580  Ram=3
+   ÀÄMAIN  0/556  Ram=3
       ÃÄ@cinit1  (Inline)  Ram=0
       ÃÄ@cinit2  (Inline)  Ram=0
       ÃÄstartup_freeze  0/114  Ram=1
@@ -13,10 +13,10 @@
       ³  ÃÄ@BCD2BYTE  0/18  Ram=0
       ³  ÀÄ@PSTRINGC_808  0/40  Ram=3
       ³     ÀÄ*
-      ÃÄupdate_shutdown_count  0/250  Ram=1
+      ÃÄupdate_shutdown_count  0/254  Ram=1
       ³  ÃÄ@PSTRINGC_808  0/40  Ram=3
       ³  ³  ÀÄ*
-      ³  ÃÄREAD_DATA_NBYTES  0/218  Ram=15
+      ³  ÃÄREAD_DATA_NBYTES  0/242  Ram=271
       ³  ³  ÃÄ@SPI_XFER_1  0/76  Ram=6
       ³  ³  ÃÄ@SPI_XFER_1  0/76  Ram=6
       ³  ³  ÃÄ@SPI_XFER_1  0/76  Ram=6
@@ -111,7 +111,7 @@
       ³  ÀÄ*
       ÃÄ@delay_ms1  0/42  Ram=1
       ÃÄ@delay_ms1  0/42  Ram=1
-      ÃÄREAD_DATA_NBYTES  0/218  Ram=15
+      ÃÄREAD_DATA_NBYTES  0/242  Ram=271
       ³  ÀÄ*
       ÃÄ@delay_ms1  0/42  Ram=1
       ÃÄ@PUTCHAR_2_  0/70  Ram=1

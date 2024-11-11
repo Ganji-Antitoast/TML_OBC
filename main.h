@@ -212,7 +212,9 @@ void WRITE_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned int8 data[], unsign
 
 char* READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
-    static unsigned char Data_return[256];  //  max data_number capacitance
+    //  max data_number capacitance.
+    //We should clear the buffer after it's use 
+    unsigned char Data_return[256];  
 
     // Byte extraction for a 32-bit address
     adsress[0] = (unsigned int8)((ADDRESS >> 24) & 0xFF);
@@ -246,7 +248,7 @@ char* READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned short data_number) {
 
 char* READ_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
-    static unsigned char Data_return[256];  // Adjust size based on expected max data_number
+    unsigned char Data_return[256];  // Adjust size based on expected max data_number
 
     // Byte extraction for a 32-bit address
     adsress[0] = (unsigned int8)((ADDRESS >> 24) & 0xFF);
@@ -280,7 +282,7 @@ char* READ_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned short data_number) {
 
 char* READ_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
-    static unsigned char Data_return[256];  // Adjust size based on expected max data_number
+    unsigned char Data_return[256];  // Adjust size based on expected max data_number
 
     // Byte extraction for a 32-bit address
     adsress[0] = (unsigned int8)((ADDRESS >> 24) & 0xFF);
@@ -412,14 +414,15 @@ void READ_CHIP_ID_OF_ADCS() {
 void startup_freeze(){
     delay_ms(2000);
     fprintf(EXT, "POWER ON!\n");
-    output_high(EN_SUP_3V3_1);
-    output_high(EN_SUP_3V3_2 );
-    output_high(EN_SUP_3V3_DAQ);
-    output_high(EN_SUP_UNREG);
-    output_high(EN_SUP_5V0);
+    //EPS power control all disabled when startup, using menu function will turn on
+    output_low(EN_SUP_3V3_1);
+    output_low(EN_SUP_3V3_2 );
+    output_low(EN_SUP_3V3_DAQ);
+    output_low(EN_SUP_UNREG);
+    output_low(EN_SUP_5V0);
     output_low(MVCAM_PWR);
     output_low(OVCAM_PWR);
-    output_high(ADCS_PWR);
+    output_high(ADCS_PWR); //turns on the power of ADCS instantly 
     output_high(CS_PIN_1);
     output_high(CS_PIN_COM );
     output_high(CS_PIN_ADCS );
@@ -433,7 +436,7 @@ void startup_freeze(){
 }
 
 void RTC_initialize(){
-        setup_lcd(LCD_DISABLED);
+    setup_lcd(LCD_DISABLED);
     rtc_time_t read_clock;
     setup_rtc(RTC_ENABLE | RTC_CLOCK_SOSC | RTC_CLOCK_INT, 0);
     rtc_read(&read_clock);
@@ -441,6 +444,7 @@ void RTC_initialize(){
 
 }
 
+//this function will receive from EPS and sent to external port of EXT single character by character   
 void uart_repeater() {
     char received_data;
 
@@ -457,6 +461,7 @@ void uart_repeater() {
 }
 
 //#define SHUTDOWN_COUNT_ADDRESS  0x00001000  // Address where shutdown count is stored
+// this function is not working correctly need to fix it 
 
 int8 update_shutdown_count(void) {
     fprintf(EXT, "Shutdown count started\n");
@@ -480,7 +485,7 @@ int8 update_shutdown_count(void) {
     return shutdown_count[0];
 }
 
-
+//set RTCC functions counting to all zero 
 void set_clock(rtc_time_t &date_time){
 
    date_time.tm_year=0000;
@@ -491,6 +496,7 @@ void set_clock(rtc_time_t &date_time){
    date_time.tm_min=00;
    date_time.tm_sec=0; 
 }
+//main flash memory consol for main_menu() function
 void write_to_main_flash_menu(){
             unsigned int32 address;
             unsigned int8 data[256]; // Buffer for data to be written (adjust size as needed)
@@ -522,7 +528,7 @@ void write_to_main_flash_menu(){
 
             fprintf(EXT, "\nData successfully written.\n");
 }
-
+//main flash memory consol for main_menu() function
 void handle_main_flash_memory() {
     char main_flash_option;
     unsigned int32 address;
@@ -560,7 +566,7 @@ void handle_main_flash_memory() {
             break;
     }
 }
-
+//main flash memory consol for main_menu() function
 void handle_flash_memories() {
     char flash_option;
     fprintf(EXT, "pressed option d: Check Flash Memories\n\n");
@@ -603,7 +609,7 @@ void handle_flash_memories() {
     }
 }
 
-
+//main RTCC functions consol for main_menu() function
 void handle_set_time() {
     char handle_set_time_option;
     fprintf(EXT, "Settings of RTC chosen\n");
@@ -637,7 +643,7 @@ void handle_set_time() {
             
 }
 }
-
+//main IO control consol for main_menu() function
 void handle_io_control() {
     char io_option;
     int8 state_of_pin;
@@ -851,7 +857,7 @@ void main_menu(void) {
                 // Call a function for H8 COM reset
                 // h8_com_reset();
                 break;
-            case 'l':
+            case 'k':
                 fprintf(EXT, "UART Repeater Initialized.\n");
                 uart_repeater();
                 break;
