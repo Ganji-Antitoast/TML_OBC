@@ -11,37 +11,37 @@
 052-079 buffer
 07A-07B read_data_com
 07C-07D read_data_adcs
-07E     MAIN.i
 07E     @SPI_XFER_2.P1
+07E     MAIN.i
 07F     MAIN.i
 07F     @SPI_XFER_2.P1
 080     MAIN.i
 080     @SPI_XFER_2.P1
-081-088 READ_CHIP_ID_OF_ADCS.chip_id
 081-088 READ_CHIP_ID_OF_COM.chip_id
 081-084 READ_DATA_NBYTES_ADCS.address
 081-089 RTC_initialize.read_clock
 081     update_shutdown_count.shutdown_count
-081-084 READ_DATA_NBYTES_COM.address
+081-088 READ_CHIP_ID_OF_ADCS.chip_id
 081-084 WRITE_DATA_NBYTES_ADCS.address
+081-084 READ_DATA_NBYTES_COM.address
 081-084 WRITE_DATA_NBYTES_COM.address
 081     main_menu.option
 081     startup_freeze.@SCRATCH1
 081     MAIN.@SCRATCH1
 082     handle_io_control.io_option
-082     @delay_ms1.P1
-082     uart_repeater.received_data
 082     handle_set_time.handle_set_time_option
+082     uart_repeater.received_data
+082     @delay_ms1.P1
 082     handle_flash_memories.flash_option
 083     handle_main_flash_memory.main_flash_option
-083     handle_io_control.state_of_pin
 083-08B handle_set_time.write_clock
+083     handle_io_control.state_of_pin
 083     @GETCH_1_.@SCRATCH1
 084-087 handle_main_flash_memory.address
 085-086 WRITE_DATA_NBYTES_COM.data
 085-086 WRITE_DATA_NBYTES_ADCS.data
-085     READ_DATA_NBYTES_ADCS.data_number
 085     READ_DATA_NBYTES_COM.data_number
+085     READ_DATA_NBYTES_ADCS.data_number
 086-089 READ_DATA_NBYTES_ADCS.adsress
 086-089 READ_DATA_NBYTES_COM.adsress
 087     WRITE_DATA_NBYTES_ADCS.data_number
@@ -74,8 +74,8 @@
 096     @PRINTF_U_808.P1
 0A8     handle_main_flash_memory.data_length
 0A9-0AC write_to_main_flash_menu.address
-0A9-0B0 READ_CHIP_ID_OF.chip_id
 0A9-0AC READ_DATA_NBYTES.address
+0A9-0B0 READ_CHIP_ID_OF.chip_id
 0A9     handle_main_flash_memory.@SCRATCH1
 0AA     handle_main_flash_memory.@SCRATCH2
 0AB-0AC @SCANF_DUO8_810.P1
@@ -406,13 +406,13 @@ Project Directory:
     C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\
 
 Project Files:
-    main.c (link)                                           [11-Nov-24 18:30  CRC=D61B5F71]
+    main.c (link)                                           [11-Nov-24 23:58  CRC=D61B5F71]
     main.h                                                  [11-Nov-24 23:57  CRC=A2381808]
     ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18F67J94.h [12-Nov-13 14:36  CRC=17AC0C0B]
 
 Source signature=A7AB8F8F
 Program memory checksum=0000
-Hex file CRC=EC67
+Hex file CRC=69B7
 
 Units:
     C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\main
@@ -428,13 +428,13 @@ Compiler Settings:
     Compile Mode:   CCS5
 
 Output Files:
-    XREF file:   dist\default\debug\TML_OBC.xsym
-    Errors:      dist\default\debug\TML_OBC.X.debug.err
-    Ext Symbols: dist\default\debug\TML_OBC.X.debug.esym
-    INHX32:      dist\default\debug\TML_OBC.X.debug.hex
-    Symbols:     dist\default\debug\TML_OBC.X.debug.sym
-    List:        dist\default\debug\TML_OBC.X.debug.lst
-    Debug/COFF:  dist\default\debug\TML_OBC.X.debug.cof
-    Project:     TML_OBC.X.debug.ccspjt
-    Call Tree:   dist\default\debug\TML_OBC.X.debug.tre
-    Statistics:  dist\default\debug\TML_OBC.X.debug.STA
+    XREF file:   dist\default\production\TML_OBC.xsym
+    Errors:      dist\default\production\TML_OBC.X.production.err
+    Ext Symbols: dist\default\production\TML_OBC.X.production.esym
+    INHX32:      dist\default\production\TML_OBC.X.production.hex
+    Symbols:     dist\default\production\TML_OBC.X.production.sym
+    List:        dist\default\production\TML_OBC.X.production.lst
+    Debug/COFF:  dist\default\production\TML_OBC.X.production.cof
+    Project:     TML_OBC.X.production.ccspjt
+    Call Tree:   dist\default\production\TML_OBC.X.production.tre
+    Statistics:  dist\default\production\TML_OBC.X.production.STA

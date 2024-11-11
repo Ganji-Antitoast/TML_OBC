@@ -1,6 +1,6 @@
 
-ROM used:   12604/131056 (10%)
-            12604/131056 (10%) including unused fragments
+ROM used:   12610/131056 (10%)
+            12610/131056 (10%) including unused fragments
 
             5.3 Average locations per line
             24.1 Average locations per statement
@@ -178,7 +178,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     46   0    0             @const1087
 0     28   0    0             @const1088
 0     36   0    0             @const1089
-0    846   3    4   1875  5.5  MAIN
+0    852   3    4   1875  5.5  MAIN
 0     26   0    0             @const1100
 0     24   0    0             @const1101
 0     26   0    0             @const1102
@@ -204,7 +204,7 @@ Program metrics:
  Segment     Used  Free
 -----------  ----  ----
 00000-00004     6  0  
-00006-0FFFE  12598  52932  
+00006-0FFFE  12604  52926  
 10000-1FFEE     0  65520  
 
 

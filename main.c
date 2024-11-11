@@ -17,14 +17,14 @@
  * 
  */
 
-//int8 setup_oscillator(OSC_PRIMARY|OSC_SOSC_ENABLED);
-char bichig[25] = "test data update of MAIN";
-char bichigcom[24] = "test data update of COM";
-char bichigadcs[25] = "test data update of ADCS";
-char *read_data;
-unsigned char buffer[40];
-char *read_data_com[80];
-char *read_data_adcs[80];
+//int8 setup_oscillator(OSC_PRIMARY|OSC_SOSC_ENABLED); //prototype of crystal ignore
+char bichig[25] = "test data update of MAIN"; //test data for testing 
+char bichigcom[24] = "test data update of COM"; //test data for testing 
+char bichigadcs[25] = "test data update of ADCS"; //test data for testing 
+char *read_data; //MAIN flash received data will be stored in here 
+unsigned char buffer[40]; //secondary buffer 
+char *read_data_com; //COM flash received data will be stored in here 
+char *read_data_adcs; //ADCS flash received data will be stored in here 
 
 void main() {
     //------------------------Start_Indicator-------------------------
@@ -43,37 +43,48 @@ RTC_initialize();
     fprintf(EXT, "Done reading chip ID\n");
     delay_ms(1000);
 //------------------------write_flash_memory--------------------------
-    //  fprintf(EXT, "Starting to write data\n");
-//    WRITE_DATA_NBYTES(0x00005000,bichig,29);
+      //write and read from MAIN flash memory 
+    fprintf(EXT, "Starting to write data in MAIN flash memory\n");
+    WRITE_DATA_NBYTES(0x00005000,bichig,29); //write functions 
     delay_ms(1000);
+    
     read_data = READ_DATA_NBYTES(0x00005000, 29);
     delay_ms(1000);
-    for (int i = 0; i < read_data[i]; i++) {
+    for (int i = 1; i < read_data[i]; i++) {
         fprintf(EXT, "%c", read_data[i]);
         delay_ms(2);
     }
-//    fprintf(EXT, "\n"); 
-//    WRITE_DATA_NBYTES_COM(0x00005000,bichigcom,29);
-//    delay_ms(1000);
-//    READ_DATA_NBYTES_COM(0x00005000,read_data_com, 29);
-//    delay_ms(1000);
-//    WRITE_DATA_NBYTES_ADCS(0x00005000,bichigadcs,29);
-//    delay_ms(1000);
-//    READ_DATA_NBYTES_ADCS(0x00005000,read_data_adcs, 29);
-//    delay_ms(1000);
-//    
-//    //   WRITE_DATA_NBYTES(0x00000250,bichig,40);
-////    WRITE_DATA_NBYTES(0x00000300, bichig, 20);
-////    fprintf(EXT, "Byte saved\n");
-////    fprintf(EXT, "Reading desired address\n");
-////    fprintf(EXT, "Reading... \n");
-////    char baba;
-//    READ_DATA_NBYTES(0x00000300, read_data, 20);
-//    fprintf(EXT, "%c", read_data);
-    for (int i = 0; i < 19; i++) {
-        fprintf(EXT, "%c", read_data[i]);
+    fprintf(EXT, "\n"); 
+
+       
+        //write and read from COM flash memory
+    fprintf(EXT, "Starting to write data in COM flash memory\n");
+    WRITE_DATA_NBYTES_COM(0x00005000,bichigcom,29);
+    delay_ms(1000);
+    
+    read_data_com = READ_DATA_NBYTES_COM(0x00005000, 29);
+    delay_ms(1000);
+    for (int i = 1; i < read_data_com[i]; i++) {
+        fprintf(EXT, "%c", read_data_com[i]);
+        delay_ms(2);
     }
-    fprintf(EXT, "\n");
+    fprintf(EXT, "\n"); 
+    
+    
+  
+    //write and read from ADCS flash memory
+    fprintf(EXT, "Starting to write data in ADCS flash memory\n");
+    WRITE_DATA_NBYTES_ADCS(0x00005000,bichigadcs,29);
+    delay_ms(1000);
+    
+    read_data_adcs = READ_DATA_NBYTES_ADCS(0x00005000, 29);
+    delay_ms(1000);
+    for (int i = 1; i < read_data_adcs[i]; i++) {
+        fprintf(EXT, "%c", read_data_adcs[i]);
+        delay_ms(2);
+    }
+    fprintf(EXT, "\n"); 
+    fprintf(EXT, "TEST IS FINISHED!\n");
     //------------------------MAIN_MENU-------------------------------
     while (TRUE) {
         if (kbhit(EXT)) {

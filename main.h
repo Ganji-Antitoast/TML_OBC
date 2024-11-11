@@ -35,7 +35,7 @@ extern "C" {
 //SPI Stream alter name 
 #define SPIPORT MAIN_FM
 #define SPIPORT2 COM_FM
-#define SPIPORT3 ADCS_FM  //cam system
+#define SPIPORT3 ADCS_FM  //cam system futher added 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
 //Flash memory chip select pins and mux control 
@@ -76,13 +76,13 @@ extern "C" {
 #define ADCS_PWR PIN_D6
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FLAG variable
-    int8 EPS_UART = 0;
-    int8 COM_UART = 0;
-    int8 ADCS_HK_ADDRESS = 0x00010000;
-    int8 ADCS_HK_ADDRESS_COUNTER = 0x00000000;
-    int8 SHUT_DOWN_COUNT_ADD = 0x00010000;
-    int8 ADCS_COMMAND = 0x02;
-    unsigned char *READ_HK_ADCS[16];
+//    int8 EPS_UART = 0;
+//    int8 COM_UART = 0;
+//    int8 ADCS_HK_ADDRESS = 0x00010000;
+//    int8 ADCS_HK_ADDRESS_COUNTER = 0x00000000;
+//    int8 SHUT_DOWN_COUNT_ADD = 0x00010000;
+//    int8 ADCS_COMMAND = 0x02;
+//    unsigned char *READ_HK_ADCS[16];
     
     
 void WRITE_ENABLE_OF(){
@@ -99,15 +99,18 @@ void WRITE_ENABLE_OF_COM(){
     output_low(MX_PIN_COM);
     spi_xfer(SPIPORT2,ENABLE_WRITE);                //Send 0x06
     output_high(CS_PIN_COM);
+    output_high(MX_PIN_COM);
  return;
 }
+
 void WRITE_ENABLE_OF_ADCS(){
+    // Lower MX to connect to flash device
+    output_low(MX_PIN_ADCS);
      // Lower CS to select the SPI device
     output_low(CS_PIN_ADCS);
-    // Lower MX to connect to flash device
-    output_low(MX_PIN_COM);
     spi_xfer(SPIPORT3,ENABLE_WRITE);                //Send 0x06
     output_high(CS_PIN_ADCS);  
+    output_high(MX_PIN_ADCS);
  return;
 }
 
@@ -135,6 +138,10 @@ void WRITE_DATA_NBYTES(unsigned int32 ADDRESS, unsigned int8* data[], unsigned c
         spi_xfer(SPIPORT, data[i]);  // Send data byte
         fprintf(EXT,"%02c", data[i]);    // Print each byte as hex (optional)
     }
+//    for (int i = 0; i < data_number; i++) {
+//        spi_xfer(SPIPORT, data[i]);  // Send data byte
+//        fprintf(EXT,"%02d", data[i]);    // Print each byte as hex (optional)
+//    } for futhre use this is for displaying in hex format 
     
     output_high(CS_PIN_1);  // Deselect SPI device
     
@@ -153,8 +160,8 @@ void WRITE_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned int8 data[], unsigne
     adsress[3]  = (unsigned int8)(ADDRESS & 0xFF);
     WRITE_ENABLE_OF_COM();  // Enable write operation
 
-//    // Lower MX to connect to flash device
-//    output_low(MX_PIN_COM);
+    // Lower MX to connect to flash device
+    output_low(MX_PIN_COM);
     // Lower CS to select the SPI device
     output_low(CS_PIN_COM);
     delay_us(2);  // Small delay for stabilization
@@ -166,7 +173,7 @@ void WRITE_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned int8 data[], unsigne
     spi_xfer(SPIPORT2, adsress[3]);
     // Write data bytes
     for (int i = 0; i < data_number; i++) {
-        spi_xfer(SPIPORT, data[i]);  // Send data byte
+        spi_xfer(SPIPORT2, data[i]);  // Send data byte
         fprintf(EXT,"%02c", data[i]);    // Print each byte as hex (debugging purpose)
     }
     
@@ -184,10 +191,10 @@ void WRITE_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned int8 data[], unsign
     adsress[1]  = (unsigned int8)((ADDRESS >> 16) & 0xFF);
     adsress[2]  = (unsigned int8)((ADDRESS >> 8) & 0xFF);
     adsress[3]  = (unsigned int8)(ADDRESS & 0xFF);
-    WRITE_ENABLE_OF_ADCS();  // Enable write operation
+    WRITE_ENABLE_OF_ADCS();  // Enable write operation and MX and CS pins are included in here 
 
-//    // Lower MX to connect to flash device
-//    output_low(MX_PIN_ADCS);
+    //Lower MX to connect to flash device
+    output_low(MX_PIN_ADCS);
     // Lower CS to select the SPI device
     output_low(CS_PIN_ADCS);
     delay_us(2);  // Small delay for stabilization
@@ -199,7 +206,7 @@ void WRITE_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned int8 data[], unsign
     spi_xfer(SPIPORT3, adsress[3]);
     // Write data bytes
     for (int i = 0; i < data_number; i++) {
-        spi_xfer(SPIPORT, data[i]);  // Send data byte
+        spi_xfer(SPIPORT3, data[i]);  // Send data byte
         fprintf(EXT,"%02c", data[i]);    // Print each byte as hex (debugging purpose)
     }
     
@@ -212,8 +219,6 @@ void WRITE_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned int8 data[], unsign
 
 char* READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
-    //  max data_number capacitance.
-    //We should clear the buffer after it's use 
     unsigned char Data_return[256];  
 
     // Byte extraction for a 32-bit address
@@ -248,8 +253,8 @@ char* READ_DATA_NBYTES(unsigned int32 ADDRESS, unsigned short data_number) {
 
 char* READ_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned short data_number) {
     unsigned int8 adsress[4];
-    unsigned char Data_return[256];  // Adjust size based on expected max data_number
-
+    unsigned char Data_return[256];  // 
+    
     // Byte extraction for a 32-bit address
     adsress[0] = (unsigned int8)((ADDRESS >> 24) & 0xFF);
     adsress[1] = (unsigned int8)((ADDRESS >> 16) & 0xFF);
@@ -272,10 +277,10 @@ char* READ_DATA_NBYTES_COM(unsigned int32 ADDRESS, unsigned short data_number) {
         Data_return[i] = spi_xfer(SPIPORT2, 0x00);  // Send dummy byte to receive data
         fprintf(EXT, "%c", Data_return[i]);         // Print each byte
     }
-    fprintf(EXT, "\n");
 
     output_high(CS_PIN_COM);  // Deselect SPI device
     output_high(MX_PIN_COM);  // Deselect MUX from flash
+    fprintf(EXT, "\n");
 
     return Data_return;
 }
@@ -306,10 +311,11 @@ char* READ_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned short data_number) 
         Data_return[i] = spi_xfer(SPIPORT3, 0x00);  // Send dummy byte to receive data
         fprintf(EXT, "%c", Data_return[i]);         // Print each byte
     }
-    fprintf(EXT, "\n");
-
+    
     output_high(CS_PIN_ADCS);  // Deselect SPI device
     output_high(MX_PIN_ADCS);  // Deselect MUX from flash
+    fprintf(EXT, "\n");
+
 
     return Data_return;
 }
@@ -336,7 +342,7 @@ int8 READ_DATA_BYTES_ADCS(unsigned int32 ADDRESS) {
     spi_xfer(SPIPORT3, adsress[2]);
     spi_xfer(SPIPORT3, adsress[3]);
     // Read the requested number of bytes
-        Data_return = spi_xfer(SPIPORT, 0x00);  // Send dummy byte to receive data
+        Data_return = spi_xfer(SPIPORT3, 0x00);  // Send dummy byte to receive data
 
     output_high(CS_PIN_ADCS);  // Deselect SPI device after reading
     output_high(MX_PIN_ADCS);  //Deselect MUX from flash
@@ -546,19 +552,22 @@ void handle_main_flash_memory() {
     switch (main_flash_option) {
         case 'a':
             fprintf(EXT, "Started reading chip ID of MAIN flash memory\n");
-            READ_CHIP_ID_OF();  // Replace with actual function
+            READ_CHIP_ID_OF();  
             break;
         case 'b':
             write_to_main_flash_menu();
             break;
         case 'c':
             fprintf(EXT, "Read data set in specified address\n");
-            fprintf(EXT, "Enter your specified address: ");
-            scanf("%x", &address);
-            fprintf(EXT, "Enter your specified address length : ");
-//            scanf("%d", &data_length);
-//            READ_DATA_NBYTES(address,data_length);  // Replace with actual function
+            fprintf(EXT, "Enter your specified address and length (e.g., 0x1234 10): ");
+            if (scanf("%x %d", &address, &data_length)) {
+                fprintf(EXT, "Address: 0x%09x, Length: %d\n", address, data_length);
+                READ_DATA_NBYTES(address, data_length);  // Replace with actual function
+            } else {
+                fprintf(EXT, "Invalid input. Please enter a valid address and length.\n");
+            }
             break;
+
         case 'x':
             return;
         default:
@@ -800,17 +809,17 @@ void main_menu(void) {
     while (1) {
         // Display Main Menu
         fprintf(EXT, "\n-----------------Main Menu-----------------\n");
-        fprintf(EXT, "    press a: Get House keeping data\n");
+        //fprintf(EXT, "    press a: Get House keeping data\n");
         fprintf(EXT, "    press b: EPS Power output control\n");
         fprintf(EXT, "    press c: House keeping data collection\n");
         fprintf(EXT, "    press d: Check Flash Memories\n");
-        fprintf(EXT, "    press e: See satellite Log\n");
+        //fprintf(EXT, "    press e: See satellite Log\n");
         fprintf(EXT, "    press f: Settings of RTC\n");
-        fprintf(EXT, "    press g: Satellite log down-link command\n");
-        fprintf(EXT, "    press h: IHC Mission start\n");
-        fprintf(EXT, "    press i: SEL current Measurement\n");
-        fprintf(EXT, "    press j: H8 COM Reset\n");
-        fprintf(EXT, "    press i: UART repeater of EPS\n");
+        //fprintf(EXT, "    press g: Satellite log down-link command\n");
+        //fprintf(EXT, "    press h: IHC Mission start\n");
+        //fprintf(EXT, "    press i: SEL current Measurement\n");
+        //fprintf(EXT, "    press j: H8 COM Reset\n");
+        fprintf(EXT, "    press k: UART repeater of EPS\n");
         fprintf(EXT, "    press x: Exit Main Menu\n");
         fprintf(EXT, "    DO NOT USE CAPITAL CHARACTERS TO WRITE!\n\n");
 

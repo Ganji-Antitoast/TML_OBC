@@ -1,8 +1,8 @@
-CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
+CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:58
 
-               Filename:   C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\dist\default\debug\TML_OBC.X.debug.lst
+               Filename:   C:\Users\Ganji\Documents\------TEMUULEL------\CODE\TML_OBC.X\dist\default\production\TML_OBC.X.production.lst
 
-               ROM used:   12604 bytes (10%)
+               ROM used:   12610 bytes (10%)
                            Largest free fragment is 65520
                RAM used:   130 (4%) at main() level
                            459 (13%) worst case
@@ -12,7 +12,7 @@ CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
 *
 00000:  NOP   
 00002:  GOTO   2DEE
-.................... #import(file="build/default/debug/main.o")
+.................... #import(file="build/default/production/main.o")
 .................... /* 
 .................... /* 
 ....................  * File:   main.c
@@ -3420,7 +3420,7 @@ CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
 0198A:  MOVWF  xBC
 0198C:  MOVLB  0
 0198E:  RCALL  11B6
-01990:  GOTO   3006 (RETURN)
+01990:  GOTO   3008 (RETURN)
 .................... }
 .................... 
 .................... void WRITE_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned int8 data[], unsigned char data_number) {
@@ -3614,7 +3614,7 @@ CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
 01C14:  MOVWF  xBC
 01C16:  MOVLB  0
 01C18:  CALL   11B6
-01C1C:  GOTO   30A8 (RETURN)
+01C1C:  GOTO   30AC (RETURN)
 .................... }
 ....................  
 .................... 
@@ -3887,7 +3887,7 @@ CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
 01A78:  MOVWF  01
 01A7A:  MOVLW  00
 01A7C:  MOVWF  02
-01A7E:  GOTO   3028 (RETURN)
+01A7E:  GOTO   302A (RETURN)
 .................... }
 .................... 
 .................... char* READ_DATA_NBYTES_ADCS(unsigned int32 ADDRESS, unsigned short data_number) {
@@ -4026,7 +4026,7 @@ CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
 01D04:  MOVWF  01
 01D06:  MOVLW  00
 01D08:  MOVWF  02
-01D0A:  GOTO   30CA (RETURN)
+01D0A:  GOTO   30CE (RETURN)
 .................... }
 .................... 
 .................... 
@@ -6416,7 +6416,7 @@ CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
 ....................         }
 02DE8:  BRA    2CEA
 ....................     }
-02DEA:  GOTO   3128 (RETURN)
+02DEA:  GOTO   312E (RETURN)
 .................... }
 .................... 
 .................... #ifdef	__cplusplus
@@ -6661,229 +6661,232 @@ CCS PCH C Compiler, Version 5.112, 5967               11-Nov-24 23:57
 02F96:  CALL   0F16
 02F9A:  DECFSZ x81,F
 02F9C:  BRA    2F92
-....................     for (int i = 0; i < read_data[i]; i++) {
-02F9E:  CLRF   x7E
-02FA0:  MOVF   x7E,W
-02FA2:  ADDWF  50,W
-02FA4:  MOVWF  FE9
-02FA6:  MOVLW  00
-02FA8:  ADDWFC 51,W
-02FAA:  MOVWF  FEA
-02FAC:  MOVF   FEF,W
-02FAE:  SUBWF  x7E,W
-02FB0:  BC    2FD2
+....................     for (int i = 1; i < read_data[i]; i++) {
+02F9E:  MOVLW  01
+02FA0:  MOVWF  x7E
+02FA2:  MOVF   x7E,W
+02FA4:  ADDWF  50,W
+02FA6:  MOVWF  FE9
+02FA8:  MOVLW  00
+02FAA:  ADDWFC 51,W
+02FAC:  MOVWF  FEA
+02FAE:  MOVF   FEF,W
+02FB0:  SUBWF  x7E,W
+02FB2:  BC    2FD4
 ....................         fprintf(EXT, "%c", read_data[i]);
-02FB2:  MOVF   x7E,W
-02FB4:  ADDWF  50,W
-02FB6:  MOVWF  FE9
-02FB8:  MOVLW  00
-02FBA:  ADDWFC 51,W
-02FBC:  MOVWF  FEA
-02FBE:  MOVFF  FEF,1C2
-02FC2:  CALL   0F3E
+02FB4:  MOVF   x7E,W
+02FB6:  ADDWF  50,W
+02FB8:  MOVWF  FE9
+02FBA:  MOVLW  00
+02FBC:  ADDWFC 51,W
+02FBE:  MOVWF  FEA
+02FC0:  MOVFF  FEF,1C2
+02FC4:  CALL   0F3E
 ....................         delay_ms(2);
-02FC6:  MOVLW  02
-02FC8:  MOVWF  x82
-02FCA:  CALL   0F16
-02FCE:  INCF   x7E,F
-02FD0:  BRA    2FA0
+02FC8:  MOVLW  02
+02FCA:  MOVWF  x82
+02FCC:  CALL   0F16
+02FD0:  INCF   x7E,F
+02FD2:  BRA    2FA2
 ....................     }
 ....................     fprintf(EXT, "\n"); 
-02FD2:  MOVLW  0A
-02FD4:  MOVLB  1
-02FD6:  MOVWF  xC2
-02FD8:  MOVLB  0
-02FDA:  CALL   0F3E
+02FD4:  MOVLW  0A
+02FD6:  MOVLB  1
+02FD8:  MOVWF  xC2
+02FDA:  MOVLB  0
+02FDC:  CALL   0F3E
 .................... 
 ....................        
 ....................         //write and read from COM flash memory
 ....................     fprintf(EXT, "Starting to write data in COM flash memory\n");
-02FDE:  MOVLW  A0
-02FE0:  MOVWF  FF6
-02FE2:  MOVLW  0E
-02FE4:  MOVWF  FF7
-02FE6:  MOVLW  00
-02FE8:  MOVWF  FF8
-02FEA:  CALL   0F84
+02FE0:  MOVLW  A0
+02FE2:  MOVWF  FF6
+02FE4:  MOVLW  0E
+02FE6:  MOVWF  FF7
+02FE8:  MOVLW  00
+02FEA:  MOVWF  FF8
+02FEC:  CALL   0F84
 ....................     WRITE_DATA_NBYTES_COM(0x00005000,bichigcom,29);
-02FEE:  CLRF   x84
-02FF0:  CLRF   x83
-02FF2:  MOVLW  50
-02FF4:  MOVWF  x82
-02FF6:  CLRF   x81
-02FF8:  CLRF   x86
-02FFA:  MOVLW  1F
-02FFC:  MOVWF  x85
-02FFE:  MOVLW  1D
-03000:  MOVWF  x87
-03002:  GOTO   182A
+02FF0:  CLRF   x84
+02FF2:  CLRF   x83
+02FF4:  MOVLW  50
+02FF6:  MOVWF  x82
+02FF8:  CLRF   x81
+02FFA:  CLRF   x86
+02FFC:  MOVLW  1F
+02FFE:  MOVWF  x85
+03000:  MOVLW  1D
+03002:  MOVWF  x87
+03004:  GOTO   182A
 ....................     delay_ms(1000);
-03006:  MOVLW  04
-03008:  MOVWF  x81
-0300A:  MOVLW  FA
-0300C:  MOVWF  x82
-0300E:  CALL   0F16
-03012:  DECFSZ x81,F
-03014:  BRA    300A
+03008:  MOVLW  04
+0300A:  MOVWF  x81
+0300C:  MOVLW  FA
+0300E:  MOVWF  x82
+03010:  CALL   0F16
+03014:  DECFSZ x81,F
+03016:  BRA    300C
 ....................     
 ....................     read_data_com = READ_DATA_NBYTES_COM(0x00005000, 29);
-03016:  CLRF   x84
-03018:  CLRF   x83
-0301A:  MOVLW  50
-0301C:  MOVWF  x82
-0301E:  CLRF   x81
-03020:  MOVLW  1D
-03022:  MOVWF  x85
-03024:  GOTO   1994
-03028:  MOVFF  02,7B
-0302C:  MOVFF  01,7A
+03018:  CLRF   x84
+0301A:  CLRF   x83
+0301C:  MOVLW  50
+0301E:  MOVWF  x82
+03020:  CLRF   x81
+03022:  MOVLW  1D
+03024:  MOVWF  x85
+03026:  GOTO   1994
+0302A:  MOVFF  02,7B
+0302E:  MOVFF  01,7A
 ....................     delay_ms(1000);
-03030:  MOVLW  04
-03032:  MOVWF  x81
-03034:  MOVLW  FA
-03036:  MOVWF  x82
-03038:  CALL   0F16
-0303C:  DECFSZ x81,F
-0303E:  BRA    3034
-....................     for (int i = 0; i < read_data_com[i]; i++) {
-03040:  CLRF   x7F
-03042:  MOVF   x7F,W
-03044:  ADDWF  x7A,W
-03046:  MOVWF  FE9
-03048:  MOVLW  00
-0304A:  ADDWFC x7B,W
-0304C:  MOVWF  FEA
-0304E:  MOVF   FEF,W
-03050:  SUBWF  x7F,W
-03052:  BC    3074
+03032:  MOVLW  04
+03034:  MOVWF  x81
+03036:  MOVLW  FA
+03038:  MOVWF  x82
+0303A:  CALL   0F16
+0303E:  DECFSZ x81,F
+03040:  BRA    3036
+....................     for (int i = 1; i < read_data_com[i]; i++) {
+03042:  MOVLW  01
+03044:  MOVWF  x7F
+03046:  MOVF   x7F,W
+03048:  ADDWF  x7A,W
+0304A:  MOVWF  FE9
+0304C:  MOVLW  00
+0304E:  ADDWFC x7B,W
+03050:  MOVWF  FEA
+03052:  MOVF   FEF,W
+03054:  SUBWF  x7F,W
+03056:  BC    3078
 ....................         fprintf(EXT, "%c", read_data_com[i]);
-03054:  MOVF   x7F,W
-03056:  ADDWF  x7A,W
-03058:  MOVWF  FE9
-0305A:  MOVLW  00
-0305C:  ADDWFC x7B,W
-0305E:  MOVWF  FEA
-03060:  MOVFF  FEF,1C2
-03064:  CALL   0F3E
+03058:  MOVF   x7F,W
+0305A:  ADDWF  x7A,W
+0305C:  MOVWF  FE9
+0305E:  MOVLW  00
+03060:  ADDWFC x7B,W
+03062:  MOVWF  FEA
+03064:  MOVFF  FEF,1C2
+03068:  CALL   0F3E
 ....................         delay_ms(2);
-03068:  MOVLW  02
-0306A:  MOVWF  x82
-0306C:  CALL   0F16
-03070:  INCF   x7F,F
-03072:  BRA    3042
+0306C:  MOVLW  02
+0306E:  MOVWF  x82
+03070:  CALL   0F16
+03074:  INCF   x7F,F
+03076:  BRA    3046
 ....................     }
 ....................     fprintf(EXT, "\n"); 
-03074:  MOVLW  0A
-03076:  MOVLB  1
-03078:  MOVWF  xC2
-0307A:  MOVLB  0
-0307C:  CALL   0F3E
+03078:  MOVLW  0A
+0307A:  MOVLB  1
+0307C:  MOVWF  xC2
+0307E:  MOVLB  0
+03080:  CALL   0F3E
 ....................     
 ....................     
 ....................   
 ....................     //write and read from ADCS flash memory
 ....................     fprintf(EXT, "Starting to write data in ADCS flash memory\n");
-03080:  MOVLW  CC
-03082:  MOVWF  FF6
-03084:  MOVLW  0E
-03086:  MOVWF  FF7
-03088:  MOVLW  00
-0308A:  MOVWF  FF8
-0308C:  CALL   0F84
+03084:  MOVLW  CC
+03086:  MOVWF  FF6
+03088:  MOVLW  0E
+0308A:  MOVWF  FF7
+0308C:  MOVLW  00
+0308E:  MOVWF  FF8
+03090:  CALL   0F84
 ....................     WRITE_DATA_NBYTES_ADCS(0x00005000,bichigadcs,29);
-03090:  CLRF   x84
-03092:  CLRF   x83
-03094:  MOVLW  50
-03096:  MOVWF  x82
-03098:  CLRF   x81
-0309A:  CLRF   x86
-0309C:  MOVLW  37
-0309E:  MOVWF  x85
-030A0:  MOVLW  1D
-030A2:  MOVWF  x87
-030A4:  GOTO   1AA8
+03094:  CLRF   x84
+03096:  CLRF   x83
+03098:  MOVLW  50
+0309A:  MOVWF  x82
+0309C:  CLRF   x81
+0309E:  CLRF   x86
+030A0:  MOVLW  37
+030A2:  MOVWF  x85
+030A4:  MOVLW  1D
+030A6:  MOVWF  x87
+030A8:  GOTO   1AA8
 ....................     delay_ms(1000);
-030A8:  MOVLW  04
-030AA:  MOVWF  x81
-030AC:  MOVLW  FA
-030AE:  MOVWF  x82
-030B0:  CALL   0F16
-030B4:  DECFSZ x81,F
-030B6:  BRA    30AC
+030AC:  MOVLW  04
+030AE:  MOVWF  x81
+030B0:  MOVLW  FA
+030B2:  MOVWF  x82
+030B4:  CALL   0F16
+030B8:  DECFSZ x81,F
+030BA:  BRA    30B0
 ....................     
 ....................     read_data_adcs = READ_DATA_NBYTES_ADCS(0x00005000, 29);
-030B8:  CLRF   x84
-030BA:  CLRF   x83
-030BC:  MOVLW  50
-030BE:  MOVWF  x82
-030C0:  CLRF   x81
-030C2:  MOVLW  1D
-030C4:  MOVWF  x85
-030C6:  GOTO   1C20
-030CA:  MOVFF  02,7D
-030CE:  MOVFF  01,7C
+030BC:  CLRF   x84
+030BE:  CLRF   x83
+030C0:  MOVLW  50
+030C2:  MOVWF  x82
+030C4:  CLRF   x81
+030C6:  MOVLW  1D
+030C8:  MOVWF  x85
+030CA:  GOTO   1C20
+030CE:  MOVFF  02,7D
+030D2:  MOVFF  01,7C
 ....................     delay_ms(1000);
-030D2:  MOVLW  04
-030D4:  MOVWF  x81
-030D6:  MOVLW  FA
-030D8:  MOVWF  x82
-030DA:  CALL   0F16
-030DE:  DECFSZ x81,F
-030E0:  BRA    30D6
-....................     for (int i = 0; i < read_data_adcs[i]; i++) {
-030E2:  CLRF   x80
-030E4:  MOVF   x80,W
-030E6:  ADDWF  x7C,W
-030E8:  MOVWF  FE9
-030EA:  MOVLW  00
-030EC:  ADDWFC x7D,W
-030EE:  MOVWF  FEA
-030F0:  MOVF   FEF,W
-030F2:  SUBWF  x80,W
-030F4:  BC    3116
+030D6:  MOVLW  04
+030D8:  MOVWF  x81
+030DA:  MOVLW  FA
+030DC:  MOVWF  x82
+030DE:  CALL   0F16
+030E2:  DECFSZ x81,F
+030E4:  BRA    30DA
+....................     for (int i = 1; i < read_data_adcs[i]; i++) {
+030E6:  MOVLW  01
+030E8:  MOVWF  x80
+030EA:  MOVF   x80,W
+030EC:  ADDWF  x7C,W
+030EE:  MOVWF  FE9
+030F0:  MOVLW  00
+030F2:  ADDWFC x7D,W
+030F4:  MOVWF  FEA
+030F6:  MOVF   FEF,W
+030F8:  SUBWF  x80,W
+030FA:  BC    311C
 ....................         fprintf(EXT, "%c", read_data_adcs[i]);
-030F6:  MOVF   x80,W
-030F8:  ADDWF  x7C,W
-030FA:  MOVWF  FE9
-030FC:  MOVLW  00
-030FE:  ADDWFC x7D,W
-03100:  MOVWF  FEA
-03102:  MOVFF  FEF,1C2
-03106:  CALL   0F3E
+030FC:  MOVF   x80,W
+030FE:  ADDWF  x7C,W
+03100:  MOVWF  FE9
+03102:  MOVLW  00
+03104:  ADDWFC x7D,W
+03106:  MOVWF  FEA
+03108:  MOVFF  FEF,1C2
+0310C:  CALL   0F3E
 ....................         delay_ms(2);
-0310A:  MOVLW  02
-0310C:  MOVWF  x82
-0310E:  CALL   0F16
-03112:  INCF   x80,F
-03114:  BRA    30E4
+03110:  MOVLW  02
+03112:  MOVWF  x82
+03114:  CALL   0F16
+03118:  INCF   x80,F
+0311A:  BRA    30EA
 ....................     }
 ....................     fprintf(EXT, "\n"); 
-03116:  MOVLW  0A
-03118:  MOVLB  1
-0311A:  MOVWF  xC2
-0311C:  MOVLB  0
-0311E:  CALL   0F3E
+0311C:  MOVLW  0A
+0311E:  MOVLB  1
+03120:  MOVWF  xC2
+03122:  MOVLB  0
+03124:  CALL   0F3E
 ....................     //------------------------MAIN_MENU-------------------------------
 ....................     while (TRUE) {
 ....................         if (kbhit(EXT)) {
-03122:  BTFSC  F82.7
-03124:  BRA    3138
+03128:  BTFSC  F82.7
+0312A:  BRA    313E
 ....................             main_menu();
-03126:  BRA    2C5A
+0312C:  BRA    2C5A
 ....................             fprintf(EXT, "exiting main menu function");
-03128:  MOVLW  FA
-0312A:  MOVWF  FF6
-0312C:  MOVLW  0E
-0312E:  MOVWF  FF7
-03130:  MOVLW  00
-03132:  MOVWF  FF8
-03134:  CALL   0F84
+0312E:  MOVLW  FA
+03130:  MOVWF  FF6
+03132:  MOVLW  0E
+03134:  MOVWF  FF7
+03136:  MOVLW  00
+03138:  MOVWF  FF8
+0313A:  CALL   0F84
 ....................         }
-03138:  BRA    3122
+0313E:  BRA    3128
 ....................     }
 .................... }
 .................... 
-0313A:  BRA    313A
+03140:  BRA    3140
 .................... 
 
 Configuration Fuses:
