@@ -579,7 +579,7 @@ void handle_main_flash_memory() {
 void handle_flash_memories() {
     char flash_option;
     fprintf(EXT, "pressed option d: Check Flash Memories\n\n");
-    fprintf(EXT, "Please choose which flash memory to work on (a, b, c):\n");
+    fprintf(EXT, "Please choose which flash memory to work on (a, b, c, d, e):\n");
     fprintf(EXT, "press a: MAIN flash memory\n");
     fprintf(EXT, "press b: COM shared flash memory\n");
     fprintf(EXT, "press c: ADCS shared flash memory\n");
@@ -624,6 +624,7 @@ void handle_set_time() {
     fprintf(EXT, "Settings of RTC chosen\n");
     fprintf(EXT, "    press a: to reset the RTC /all current time will be set zero/\n");
     fprintf(EXT, "    press b: display current time\n");
+    fprintf(EXT, "    press c: display current time nonstop\n");
     handle_set_time_option = fgetc(EXT);
 
     switch (handle_set_time_option) {
@@ -643,6 +644,16 @@ void handle_set_time() {
             rtc_read(&read_clock);
     fprintf(EXT, "\r%02u/%02u/20%02u %02u:%02u:%02u", read_clock.tm_mon, read_clock.tm_mday, read_clock.tm_year, read_clock.tm_hour, read_clock.tm_min, read_clock.tm_sec);
     break;
+        case 'c':
+                while(true){
+                    rtc_read(&read_clock);
+                    fprintf(EXT, "Now time is\n");
+                    fprintf(EXT, "\r%02u/%02u/20%02u %02u:%02u:%02u\n", read_clock.tm_mon, read_clock.tm_mday, read_clock.tm_year, read_clock.tm_hour, read_clock.tm_min, read_clock.tm_sec);   
+                    delay_ms(500);
+                }
+                
+            
+            break;
         case 'x':
             break;
             return;
